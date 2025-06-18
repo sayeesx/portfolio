@@ -4,7 +4,7 @@ Welcome to the source code of my personal portfolio website, built using **Next.
 
 🔗 **Live site:** [www.sayees.vercel.app](https://www.sayees.vercel.app)
 
-This portfolio is a reflection of my journey in tech — showcasing who I am, the work I've done, the skills I’ve learned, and the tools I love using. It is responsive, fast, and built with a modern stack to represent my style and growth.
+This portfolio is a reflection of my journey in tech showcasing who I am, the work I've done, the skills I’ve learned, and the tools I love using. It is responsive, fast, and built with a modern stack to represent my style and growth.
 
 ---
 
