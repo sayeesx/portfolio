@@ -202,8 +202,8 @@ export default function ChatWidget() {
     return () => clearInterval(intervalId);
   }, []);
 
-  const renderIcon = () => {
-    switch(currentIcon) {
+  const renderIcon = (iconKey, isMobile) => {
+    switch(iconKey) {
       case 'chat':
         return (
           <svg className={`w-6 h-6 ${!isMobile && "mr-2"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -221,7 +221,7 @@ export default function ChatWidget() {
 
   return (
     <>
-      <div className="backdrop-blur-md bg-white/30 border border-white/40 rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
+      <div className="backdrop-blur-md bg-white/30 border border-white/40 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300">
         <button
           onClick={() => setIsOpen(!isOpen)}
           className={`
@@ -230,20 +230,51 @@ export default function ChatWidget() {
             hover:bg-black/5
             transition-all duration-300
             relative
-            border border-black/20
-            before:absolute before:inset-[-2px]
-            before:rounded-full before:border-2
-            before:border-black/20
-            before:animate-border-flow
             overflow-visible
             transform origin-center
             ${zoomOut ? "scale-100 opacity-100" : "scale-90 opacity-0"}
             ${isMobile ? "w-12 h-12 min-w-0 p-0" : "w-auto min-w-[140px] px-4 py-2"}
+            moving-border-btn
           `}
           aria-label="Open chat"
+          style={{ zIndex: 1 }}
         >
-          {renderIcon()}
-          {!isMobile && <span className="font-medium">Let's Chat</span>}
+          {/* Animated moving border using SVG, conditional for shape */}
+          {isMobile ? (
+            <svg className="absolute -inset-1 w-[calc(100%+8px)] h-[calc(100%+8px)] pointer-events-none z-0" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="28" cy="28" r="27" stroke="url(#border-gradient-colorful)" strokeWidth="2" className="moving-border-circle" />
+            </svg>
+          ) : (
+            <svg className="absolute -inset-1 w-[calc(100%+8px)] h-[calc(100%+8px)] pointer-events-none z-0" viewBox="0 0 216 64" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+              <rect x="4" y="4" width="208" height="56" rx="28" stroke="url(#border-gradient-colorful)" strokeWidth="2" className="moving-border-rect" />
+            </svg>
+          )}
+
+          {/* Common linear gradient definition */}
+          <svg width="0" height="0" style={{ position: 'absolute' }}>
+            <defs>
+              <linearGradient id="border-gradient-colorful" x1="0" y1="0" x2="1" y2="1" gradientUnits="userSpaceOnUse" gradientTransform="rotate(20)">
+                <stop stopColor="#3d5be0" stopOpacity="0.5" />
+                <stop offset="0.5" stopColor="#ff5941" stopOpacity="0.4" />
+                <stop offset="1" stopColor="#3d5be0" stopOpacity="0.5" />
+              </linearGradient>
+            </defs>
+          </svg>
+
+          {/* Smooth icon switching */}
+          <div className="relative w-6 h-6 flex items-center justify-center">
+            {['chat', 'thinking', 'robot'].map((iconKey) => (
+              <div
+                key={iconKey}
+                className={`absolute transition-all duration-700 ease-in-out ${
+                  currentIcon === iconKey ? 'opacity-100 transform scale-100' : 'opacity-0 transform scale-75'
+                }`}
+              >
+                {renderIcon(iconKey, isMobile)}
+              </div>
+            ))}
+          </div>
+          {!isMobile && <span className="font-medium ml-2">Let's Chat</span>}
         </button>
       </div>
 
@@ -382,17 +413,38 @@ export default function ChatWidget() {
           }
         }
 
-        @keyframes border-flow {
-          0% {
-            transform: rotate(0deg);
-          }
+        .moving-border-btn {
+          position: relative;
+          z-index: 0;
+          background: #fff;
+          border-radius: 9999px;
+        }
+        .moving-border-rect {
+          stroke-dasharray: 600 100;
+          stroke-dashoffset: 0;
+          animation: border-move-rect 3s linear infinite;
+        }
+        .moving-border-circle {
+          stroke-dasharray: 108 62; /* Circumference ~170 for r=27 */
+          stroke-dashoffset: 0;
+          animation: border-move-circle 3s linear infinite;
+        }
+        @keyframes border-move-rect {
           100% {
-            transform: rotate(360deg);
+            stroke-dashoffset: -700;
+          }
+        }
+        @keyframes border-move-circle {
+          100% {
+            stroke-dashoffset: -170;
           }
         }
 
-        .animate-border-flow {
-          animation: border-flow 3s linear infinite;
+        /* Make the moving border faster on mobile */
+        @media (max-width: 768px) {
+          :global(.moving-border-circle) {
+            animation-duration: 1.2s !important;
+          }
         }
 
         .shadow-3d {

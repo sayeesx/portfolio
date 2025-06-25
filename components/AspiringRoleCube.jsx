@@ -1,138 +1,52 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { LayoutGroup, motion } from "framer-motion"
+import { useMemo, useState, useEffect } from "react"
+import TextRotate from "./TextRotate"
 
 const AspiringRoleCube = () => {
-  const [animationStage, setAnimationStage] = useState("animating") // Start directly with animation
-  const [currentFace, setCurrentFace] = useState(0)
-  const roles = ["Student", "Developer", "AI Engineer"]
+  // Roles to rotate
+  const roles = useMemo(() => [
+    "Student",
+    "Developer",
+    "AI & ML Engineer",
+  ], [])
 
-  useEffect(() => {
-    if (animationStage !== "animating") return
-
-    // Rotate through faces
-    const rotationInterval = setInterval(() => {
-      setCurrentFace((prev) => {
-        // After showing all roles, complete the animation
-        // We check for the last role specifically
-        if (prev === roles.length - 1) {
-          clearInterval(rotationInterval)
-
-          // Short delay before showing final text
-          setTimeout(() => {
-            setAnimationStage("completed")
-          }, 800) // Longer delay for smoother transition
-
-          // Don't change the face, keep it on the last one
-          return prev
-        }
-
-        // Otherwise, move to the next face
-        return prev + 1
-      })
-    }, 2000) // Change face every 2 seconds
-
-    return () => clearInterval(rotationInterval)
-  }, [animationStage, roles.length])
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
+  if (!mounted) {
+    return (
+      <div className="w-full h-full text-lg md:text-2xl flex flex-row items-center justify-center font-semibold text-black overflow-hidden p-0 md:p-2">
+        <span>Aspiring <span className="text-white px-2 md:px-3 bg-[#3d5be0] rounded-lg">Student</span></span>
+      </div>
+    )
+  }
 
   return (
-    <div className="relative h-[60px] flex items-center justify-center">
-      {animationStage === "completed" ? (
-        // Final text with enhanced fade in animation
-        <div className="wide-fade-in">
-          <p className="text-lg md:text-2xl bg-[#3d5be0] text-white px-4 py-1 rounded-md whitespace-nowrap shadow-lg h-[38px] md:h-[42px] flex items-center justify-center">
-            Student | Developer | AI & ML Engineer
-          </p>
-        </div>
-      ) : (
-        // Animation container - with no gap between blocks and consistent font size
-        <div className="bg-[#3d5be0] text-white rounded-md shadow-lg h-[38px] md:h-[42px] flex items-center">
-          {/* Single container for both words with consistent styling */}
-          <div className="flex items-center pl-6 pr-0 h-full">
-            {/* First word with consistent font size */}
-            <span className="text-lg md:text-2xl">Aspiring</span>
-            
-            {/* Small space between words */}
-            <span className="w-[4px]"></span>
-            
-            {/* Rotating word with same font size */}
-            <div className="cube-container h-full -mr-6">
-
-              <div
-                className="cube"
-                style={{
-                  transform: `rotateX(${-90 * currentFace}deg)`,
-                }}
-              >
-                {roles.map((role, index) => (
-                  <div
-                    key={index}
-                    className="cube-face text-lg md:text-2xl" // Same font size as "aspiring"
-                    style={{
-                      transform: `rotateX(${90 * index}deg) translateZ(40px)`,
-                      opacity: currentFace === index ? 1 : 0.5,
-                    }}
-                  >
-                    {role}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      <style jsx>{`
-        @keyframes wideFadeIn {
-          0% { 
-            opacity: 0;
-            transform: scale(0.95);
-          }
-          100% { 
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-        
-        .wide-fade-in {
-          animation: wideFadeIn 1.2s ease-out forwards;
-        }
-        
-        .cube-container {
-          perspective: 1000px;
-          width: 150px; /* Reduced width */
-          display: flex;
-          align-items: center;
-          justify-content: flex-start; /* Align to start for better word spacing */
-          overflow: hidden;
-        }
-        
-        .cube {
-          position: relative;
-          width: 100%;
-          height: 100%;
-          transform-style: preserve-3d;
-          transition: transform 0.8s ease;
-        }
-        
-        .cube-face {
-          position: absolute;
-          width: 80%;
-          height: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center; /* Align to start for better word spacing */
-          color: white;
-          backface-visibility: hidden;
-          transition: opacity 0.3s ease;
-        }
-        
-        @media (min-width: 768px) {
-          .cube-container {
-            width: 180px; /* Reduced width for desktop */
-          }
-        }
-      `}</style>
+    <div className="w-full h-full text-lg md:text-2xl flex flex-row items-center justify-center font-semibold text-black overflow-hidden p-0 md:p-2">
+      <LayoutGroup>
+        <motion.p className="flex whitespace-pre" layout>
+          <motion.span
+            className="pt-0.5 md:pt-1"
+            layout
+            transition={{ type: "spring", damping: 30, stiffness: 400 }}
+          >
+            Aspiring {" "}
+          </motion.span>
+          <TextRotate
+            texts={roles}
+            mainClassName="text-white px-2 md:px-3 bg-[#3d5be0] overflow-hidden py-0.5 md:py-2 justify-center rounded-lg"
+            staggerFrom={"last"}
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "-120%" }}
+            staggerDuration={0.025}
+            splitLevelClassName="overflow-hidden pb-0.5 md:pb-1"
+            transition={{ type: "spring", damping: 30, stiffness: 400 }}
+            rotationInterval={2000}
+          />
+        </motion.p>
+      </LayoutGroup>
     </div>
   )
 }
