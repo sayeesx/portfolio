@@ -40,7 +40,7 @@ export default function SkillsSection() {
           My Skills 
         </h2>
         <div className="relative overflow-hidden">
-          <div className="relative flex justify-center items-center gap-3 md:gap-6 overflow-x-auto hide-scrollbar py-8">
+          <div className="skills-grid-mobile relative flex justify-center items-center gap-3 md:gap-6 overflow-x-auto hide-scrollbar py-8">
             {skills.map((skill, index) => (
               <div
                 key={skill.name}

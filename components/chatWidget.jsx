@@ -36,6 +36,7 @@ export default function ChatWidget() {
   const [isTypingMessage, setIsTypingMessage] = useState(false);
   const [showQuickActions, setShowQuickActions] = useState(true);
   const [currentIcon, setCurrentIcon] = useState('chat'); // Add this state
+  const [isOnline, setIsOnline] = useState(true);
 
   const quickActions = [
     { text: "Who is Sayees?", query: "who is sayees", icon: <User className="h-4 w-4" /> },
@@ -111,6 +112,30 @@ export default function ChatWidget() {
         },
       ]);
     }
+  }, [isOpen]);
+
+  // Check chatbot API connectivity on open (from frontend)
+  useEffect(() => {
+    if (!isOpen) return;
+    let didCancel = false;
+    setIsOnline(true); // optimistic
+    fetchWithTimeout(
+      "https://chatbot-4cn8.onrender.com/api/chat",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: "ping from frontend" })
+      },
+      5000
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (!didCancel) setIsOnline(!!(data && data.response));
+      })
+      .catch(() => {
+        if (!didCancel) setIsOnline(false);
+      });
+    return () => { didCancel = true; };
   }, [isOpen]);
 
   const handleSendMessage = async (message) => {
@@ -242,7 +267,7 @@ export default function ChatWidget() {
           {/* Animated moving border using SVG, conditional for shape */}
           {isMobile ? (
             <svg className="absolute -inset-1 w-[calc(100%+8px)] h-[calc(100%+8px)] pointer-events-none z-0" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="28" cy="28" r="27" stroke="url(#border-gradient-colorful)" strokeWidth="2" className="moving-border-circle" />
+              <circle cx="28" cy="28" r="27" stroke="#3d5be0" strokeWidth="2" />
             </svg>
           ) : (
             <svg className="absolute -inset-1 w-[calc(100%+8px)] h-[calc(100%+8px)] pointer-events-none z-0" viewBox="0 0 216 64" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
@@ -286,7 +311,21 @@ export default function ChatWidget() {
           hover:shadow-3d`}
         >
           <div className="flex items-center justify-between p-3 border-b border-white/40 bg-[#3d5be0] text-white rounded-t-lg">
-            <h3 className="font-semibold text-sm">Chat with Sayees</h3>
+            <div className="flex items-center gap-2">
+              {/* Live/Offline indicator to the left, with background box */}
+              {isOnline ? (
+                <span className="status-box bg-green-100/30 flex items-center px-2 py-0.5 mr-1">
+                  <span className="live-dot"></span>
+                  <span className="ml-1 text-xs font-semibold text-white">Live</span>
+                </span>
+              ) : (
+                <span className="status-box bg-red-100/30 flex items-center px-2 py-0.5 mr-1">
+                  <span className="offline-dot"></span>
+                  <span className="ml-1 text-xs font-semibold text-white">Offline</span>
+                </span>
+              )}
+              <h3 className="font-semibold text-sm text-white">Chat with Sayees</h3>
+            </div>
             <button
               onClick={() => setIsOpen(false)}
               className="p-1 hover:bg-[#2d4bd0] rounded-full transition-colors"
@@ -326,7 +365,7 @@ export default function ChatWidget() {
                   <button
                     key={index}
                     onClick={() => handleSendMessage(action.query)}
-                    className="px-3 py-1 text-sm bg-gray-100 border border-gray-200 text-black rounded-full hover:bg-[#3d5be0] hover:text-white transition-all duration-300 transform hover:scale-105 shadow-md"
+                    className="px-3 py-1 text-sm bg-gray-100 border border-gray-200 text-black rounded-md hover:bg-[#3d5be0] hover:text-white transition-all duration-300 transform hover:scale-105 shadow-md"
                   >
                     {action.icon}
                     {action.text}
@@ -425,9 +464,14 @@ export default function ChatWidget() {
           animation: border-move-rect 3s linear infinite;
         }
         .moving-border-circle {
-          stroke-dasharray: 108 62; /* Circumference ~170 for r=27 */
+          stroke-dasharray: 108 62;
           stroke-dashoffset: 0;
           animation: border-move-circle 3s linear infinite;
+        }
+        @media (max-width: 768px) {
+          .moving-border-circle {
+            animation: none !important;
+          }
         }
         @keyframes border-move-rect {
           100% {
@@ -437,13 +481,6 @@ export default function ChatWidget() {
         @keyframes border-move-circle {
           100% {
             stroke-dashoffset: -170;
-          }
-        }
-
-        /* Make the moving border faster on mobile */
-        @media (max-width: 768px) {
-          :global(.moving-border-circle) {
-            animation-duration: 1.2s !important;
           }
         }
 
@@ -461,6 +498,46 @@ export default function ChatWidget() {
         .shadow-lg {
           box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
                     0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .status-box {
+          border-radius: 8px;
+          padding: 0 0.5rem;
+          display: flex;
+          align-items: center;
+        }
+        .live-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: #22ff22;
+          box-shadow: 0 0 0 0 #22ff22;
+          animation: ripple-live 1.2s infinite cubic-bezier(0.66, 0, 0, 1);
+          display: inline-block;
+        }
+        .offline-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: #ff2222;
+          display: inline-block;
+        }
+        .quick-action-btn {
+          border-radius: 6px !important;
+        }
+        @keyframes ripple-live {
+          0% {
+            box-shadow: 0 0 0 0 #22ff22, 0 0 0 0 #22ff22;
+            opacity: 1;
+          }
+          70% {
+            box-shadow: 0 0 0 6px #22ff2200, 0 0 0 12px #22ff2200;
+            opacity: 0.7;
+          }
+          100% {
+            box-shadow: 0 0 0 12px #22ff2200, 0 0 0 24px #22ff2200;
+            opacity: 0.3;
+          }
         }
       `}</style>
     </>

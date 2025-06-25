@@ -38,11 +38,12 @@ export default function HeroSection({ zoomOut }) {
           <DownloadCVButton className="shadow-3d" />
           <Link
             href="/aboutme"
-            className="group relative px-6 py-3 bg-transparent rounded-full moving-border-btn overflow-hidden transition-all duration-300 min-w-[160px] min-h-[44px] flex items-center justify-center font-medium text-base text-black shadow-3d hover:bg-[#3d5be0] hover:text-white"
-            style={{ marginLeft: 0 }}
+            className="aboutme-btn group relative px-6 py-3 rounded-full transition-all duration-300 min-w-[160px] min-h-[44px] flex items-center justify-center font-medium text-base text-black"
+            style={{ marginLeft: 0, background: 'none', boxShadow: 'none', border: 'none' }}
           >
             <span className="flex items-center gap-2">
-              About Me <ArrowRight className="w-5 h-5 ml-1" />
+              About Me
+              <ArrowRight className="w-5 h-5 ml-1 arrow-animate group-hover:translate-x-2 transition-transform duration-300" />
             </span>
           </Link>
         </div>
