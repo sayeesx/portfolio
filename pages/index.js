@@ -10,12 +10,32 @@ import throttle from "lodash.throttle"
 import { useEffect, useRef, useState, Suspense } from "react"
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { OrbitingCircles } from "@/components/magicui/orbiting-circles";
+import { File, Settings, Search } from "lucide-react";
+import OrbitingSkills from "@/components/orbiting-skills";
 gsap.registerPlugin(ScrollTrigger);
 
 // Lazy load heavy/scroll-sensitive components
 const ProjectsSection = dynamic(() => import("../components/ProjectsSection"), { ssr: false })
-const CertificationsCarousel = dynamic(() => import("../components/CertificationsCarousel"), { ssr: false })
 const ChatWidget = dynamic(() => import("../components/chatWidget"), { ssr: false })
+
+const OrbitingCirclesDemo = () => {
+  return (
+    <div className="relative overflow-hidden h-[500px] w-full">
+      <OrbitingCircles>
+        <File />
+        <Settings />
+        <File />
+      </OrbitingCircles>
+      <OrbitingCircles radius={100} reverse>
+        <File />
+        <Settings />
+        <File />
+        <Search />
+      </OrbitingCircles>
+    </div>
+  );
+};
 
 export default function Component() {
   const [zoomOut, setZoomOut] = useState(false)
@@ -113,9 +133,6 @@ export default function Component() {
         <HeroSection zoomOut={zoomOut} />
       </div>
       <Suspense fallback={null}>
-        <CertificationsCarousel />
-      </Suspense>
-      <Suspense fallback={null}>
         <ProjectsSection isMobile={isMobile} projectsSectionRef={projectsSectionRef} />
       </Suspense>
       <SkillsSection />
@@ -124,6 +141,19 @@ export default function Component() {
         <Suspense fallback={null}>
           <ChatWidget />
         </Suspense>
+      </div>
+      <div className="relative overflow-hidden h-[500px] w-full">
+        <OrbitingCircles>
+          <File />
+          <Settings />
+          <File />
+        </OrbitingCircles>
+        <OrbitingCircles radius={100} reverse>
+          <File />
+          <Settings />
+          <File />
+          <Search />
+        </OrbitingCircles>
       </div>
       <style jsx>{`
         html, body, #__next, main, .layoutWrapper {

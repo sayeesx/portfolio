@@ -1,23 +1,74 @@
 import AspiringRoleCube from "./AspiringRoleCube";
 import BlurText from "./BlurText";
 import DownloadCVButton from "./DownloadCVButton";
+import SplitText from "./SplitText";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+
+const handleAnimationComplete = () => {
+  console.log("All letters have animated!");
+};
 
 export default function HeroSection({ zoomOut }) {
   return (
     <section className="min-h-[85vh] md:min-h-[85vh] min-h-[60vh] flex items-center justify-center pt-32 md:pt-32 pt-40 pb-0">
       <div
-        className={`flex flex-col items-center justify-center text-center px-4 py-12 md:py-12 py-6 transform transition-all duration-1000 ease-out mx-auto mt-12 md:mt-0 ${zoomOut ? "scale-90 opacity-100" : "scale-110 opacity-0"}`}
+        className={`flex flex-col items-center justify-center text-center px-4 py-12 md:py-12 py-6 transform transition-all duration-1000 ease-out mx-auto mt-12 md:mt-0 ${
+          zoomOut ? "scale-90 opacity-100" : "scale-110 opacity-0"
+        }`}
       >
         <div className="flex flex-col items-center gap-4 md:gap-4 gap-2 mb-6 md:mb-6 mb-3">
           <div className="flex flex-col md:flex-row items-center gap-1 md:gap-2">
-            <h1 className="text-3xl md:text-6xl text-4xl font-bold text-black mb-0 md:mb-2 text-shadow-3d">
-              Hello, I&apos;m
-            </h1>
-            <h1 className="text-3xl md:text-6xl text-4xl font-bold text-black mb-2 md:mb-2 text-shadow-3d">
-              Muhammed Sayees
-            </h1>
+            <div className="flex flex-col">
+              {/* Desktop: single line */}
+              <div className="hidden md:block">
+                <SplitText
+                  text="Hello, I'm Muhammed Sayees"
+                  className="text-3xl md:text-6xl text-4xl font-bold text-black mb-0 md:mb-2 text-shadow-3d"
+                  delay={60}
+                  duration={1.2}
+                  ease="expo.out"
+                  splitType="chars"
+                  from={{ opacity: 0, y: 40 }}
+                  to={{ opacity: 1, y: 0 }}
+                  threshold={0.1}
+                  rootMargin="-100px"
+                  textAlign="center"
+                  onLetterAnimationComplete={handleAnimationComplete}
+                />
+              </div>
+              {/* Mobile: two lines */}
+              <div className="block md:hidden">
+                <SplitText
+                  text="Hello, I'm"
+                  className="text-3xl md:text-6xl text-4xl font-bold text-black mb-0 md:mb-2 text-shadow-3d"
+                  delay={60}
+                  duration={1.2}
+                  ease="expo.out"
+                  splitType="chars"
+                  from={{ opacity: 0, y: 40 }}
+                  to={{ opacity: 1, y: 0 }}
+                  threshold={0.1}
+                  rootMargin="-100px"
+                  textAlign="center"
+                  onLetterAnimationComplete={handleAnimationComplete}
+                />
+                <SplitText
+                  text="Muhammed Sayees"
+                  className="text-3xl md:text-6xl text-4xl font-bold text-black mb-0 md:mb-2 text-shadow-3d"
+                  delay={60}
+                  duration={1.2}
+                  ease="expo.out"
+                  splitType="chars"
+                  from={{ opacity: 0, y: 40 }}
+                  to={{ opacity: 1, y: 0 }}
+                  threshold={0.1}
+                  rootMargin="-100px"
+                  textAlign="center"
+                  onLetterAnimationComplete={handleAnimationComplete}
+                />
+              </div>
+            </div>
           </div>
           <div className="scale-100 md:scale-100 scale-75">
             <AspiringRoleCube />
@@ -39,7 +90,12 @@ export default function HeroSection({ zoomOut }) {
           <Link
             href="/aboutme"
             className="aboutme-btn group relative px-6 py-3 rounded-full transition-all duration-300 min-w-[160px] min-h-[44px] flex items-center justify-center font-medium text-base text-black"
-            style={{ marginLeft: 0, background: 'none', boxShadow: 'none', border: 'none' }}
+            style={{
+              marginLeft: 0,
+              background: "none",
+              boxShadow: "none",
+              border: "none",
+            }}
           >
             <span className="flex items-center gap-2">
               About Me

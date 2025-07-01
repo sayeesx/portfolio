@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
+import ChromaGrid from "./ChromaGrid";
 
 const projects = [
   {
@@ -47,43 +48,22 @@ const projects = [
   },
 ];
 
-const ProjectsSectionContent = ({ isMobile }) => {
-  const router = useRouter();
-  const projectsToDisplay = isMobile ? projects.slice(0, 2) : projects;
+const chromaProjects = projects.map((p) => ({
+  image: p.image,
+  title: p.title,
+  subtitle: p.tech,
+  handle: p.timeAgo,
+  borderColor: "#4F46E5", // You can customize per project
+  gradient: "linear-gradient(145deg, #4F46E5, #000)", // Or set per project
+  url: p.projectLink !== "#" ? p.projectLink : undefined,
+}));
 
+const ProjectsSectionContent = ({ isMobile }) => {
+  const projectsToDisplay = isMobile ? chromaProjects.slice(0, 2) : chromaProjects;
   return (
     <>
       <div className="flex justify-center flex-wrap gap-6 pb-8 project-cards-row px-2 md:px-0">
-        {projectsToDisplay.map((project, index) => (
-          <div
-            key={project.id}
-            className="relative z-20 group min-w-[320px] max-w-[380px] w-full h-[180px] flex items-stretch bg-white/20 backdrop-blur-xl border-2 border-white/20 rounded-[1.5rem] shadow-2xl glassmorphic-card-horizontal transition-all duration-300 cursor-pointer overflow-hidden"
-            onClick={() => project.id !== 5 && router.push("/works")}
-          >
-            {/* Image */}
-            <div className="relative h-full w-2/5 min-w-[40%] rounded-l-[1.5rem] overflow-hidden bg-white/20">
-              <Image
-                src={project.image}
-                alt={project.title}
-                fill
-                className="object-contain p-4"
-                priority={index === 0}
-                loading={index === 0 ? undefined : "lazy"}
-              />
-            </div>
-
-            {/* Content */}
-            <div className="flex-1 flex flex-col justify-center px-4 py-4 w-3/5 min-w-0">
-              <h3 className="font-bold text-lg mb-2 text-gray-900 drop-shadow-lg truncate">
-                {project.title}
-              </h3>
-              <p className="text-xs mb-2 text-gray-700 font-medium opacity-80 truncate">
-                {project.tech.split("+")[0].trim()}
-              </p>
-              <span className="text-xs text-gray-500 truncate">{project.timeAgo}</span>
-            </div>
-          </div>
-        ))}
+        <ChromaGrid items={projectsToDisplay} columns={isMobile ? 1 : 3} rows={isMobile ? 2 : 2} />
       </div>
       {/* Button */}
       <div className="text-center mt-8 md:mt-12 mb-16 md:mb-24">
@@ -128,17 +108,6 @@ export default function ProjectsSection({ isMobile, projectsSectionRef }) {
         </h2>
         <ProjectsSectionContent isMobile={isMobile} />
       </div>
-
-      <style jsx>{`
-        .glassmorphic-card-horizontal {
-          background: rgba(255, 255, 255, 0.18);
-          box-shadow: 0 2px 18px 0 rgba(31, 38, 135, 0.18);
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(16px);
-          border-radius: 0.7rem;
-          border: 2px solid rgba(255,255,255,0.18);
-        }
-      `}</style>
     </section>
   );
 }

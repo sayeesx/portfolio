@@ -11,7 +11,7 @@ const Works = () => {
       id: 1,
       title: "Exquio",
       description: "Doctor Appointment Booking App (React Native + Supabase): Built a cross-platform app to connect patients with doctors. Designed user and admin interfaces, handling auth, booking flow, backend logic, AI lab reports analysis, and payment integration.",
-      image: "/assets/healo.jpg",
+      image: "/assets/healo.webp",
       tech: "python + react native + supabase + tailwind css",
       timeAgo: "4 months ago",
       projectLink: "https://github.com/sayeesx/exquio"
@@ -20,7 +20,7 @@ const Works = () => {
       id: 2,
       title: "Roamio",
       description: "Developed a platform connecting travelers with local guides for tailored experiences. Implemented an ML-based guide recommendation engine and AI-generated travel itinerary planner based on user preferences.",
-      image: "/assets/roamio.png",
+      image: "/assets/roamio.webp",
       tech: "Next.js + Supabase + MySQL + Java + Machine Learning + AI",
       timeAgo: "1 year ago",
       projectLink: "https://github.com/sayeesx/roamio"
@@ -29,7 +29,7 @@ const Works = () => {
       id: 3,
       title: "ZapIT",
       description: "ZapIT is a rapid development startup specializing in delivering high-quality dynamic and static websites and apps within just 24 hours. Whether you're a startup needing a quick launch or a business looking for a fast digital solution, Zapit combines speed, design, and performance to get you online—fast",
-      image: "/assets/zapit.jpg",
+      image: "/assets/zapit.webp",
       tech: "React + TypeScript",
       timeAgo: "2 years ago",
       projectLink: "https://github.com/sayeesx/zapit"
@@ -38,16 +38,16 @@ const Works = () => {
       id: 4,
       title: "Requery",
       description: "Student Complaint Portal: Complaint submission and tracking for college students. Developed using HTML, css, javascript and SQL, implemented user authentication, and real-time notifications.",
-      image: "/assets/requery.png",
+      image: "/assets/requery.webp",
       tech: "html + css + js + MySQL",
       timeAgo: "2 years ago",
       projectLink: "https://github.com/sayeesx/requery-empire"
     },
     {
       id: 5,
-      title: "New Project",
-      description: "An exciting new project is coming soon! Stay tuned for updates as we work on bringing this innovative idea to life.",
-      image: "/assets/updating.jpg",
+      title: "MIznet - A blockchain based ",
+      description: " a Python-based blockchain platform enhanced with AI and ML capabilities for fraud detection, dynamic mining difficulty adjustment, anomaly detection, and transaction pattern analysis.It combines the fundamentals of blockchain technology with modern intelligence to create a robust,secure, and adaptive network.",
+      image: "/assets/coming-soon.webp",
       tech: "Coming Soon",
       timeAgo: "Updating...",
       projectLink: "#",
