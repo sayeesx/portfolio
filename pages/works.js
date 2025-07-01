@@ -47,7 +47,7 @@ const Works = () => {
       id: 5,
       title: "MIznet - A blockchain based ",
       description: " a Python-based blockchain platform enhanced with AI and ML capabilities for fraud detection, dynamic mining difficulty adjustment, anomaly detection, and transaction pattern analysis.It combines the fundamentals of blockchain technology with modern intelligence to create a robust,secure, and adaptive network.",
-      image: "/assets/coming-soon.webp",
+      image: "/assets/blockchain.png",
       tech: "Coming Soon",
       timeAgo: "Updating...",
       projectLink: "#",

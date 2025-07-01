@@ -142,19 +142,6 @@ export default function Component() {
           <ChatWidget />
         </Suspense>
       </div>
-      <div className="relative overflow-hidden h-[500px] w-full">
-        <OrbitingCircles>
-          <File />
-          <Settings />
-          <File />
-        </OrbitingCircles>
-        <OrbitingCircles radius={100} reverse>
-          <File />
-          <Settings />
-          <File />
-          <Search />
-        </OrbitingCircles>
-      </div>
       <style jsx>{`
         html, body, #__next, main, .layoutWrapper {
           scroll-behavior: smooth !important;

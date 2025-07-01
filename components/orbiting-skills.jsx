@@ -2,18 +2,18 @@ import { OrbitingCircles } from "@/components/magicui/orbiting-circles"
 import Image from "next/image"
 
 const skillIcons = [
+  { src: "/img/python.svg", alt: "Python" },
+  { src: "/img/sql.svg", alt: "SQL" },
+  { src: "/img/scikit.svg", alt: "Scikit" },
+  { src: "/img/tensorflow.png", alt: "TensorFlow" },
+  { src: "/img/julia.svg", alt: "Julia" },
+  { src: "/img/cpp.svg", alt: "C++" },
+  { src: "/img/tailwind.png", alt: "  Tailwind" },
   { src: "/img/html.svg", alt: "HTML" },
   { src: "/img/css.svg", alt: "CSS" },
   { src: "/img/javascript.svg", alt: "JavaScript" },
   { src: "/img/react.svg", alt: "React" },
   { src: "/img/nextjs.svg", alt: "Next.js" },
-  { src: "/img/python.svg", alt: "Python" },
-  { src: "/img/java.svg", alt: "Java" },
-  { src: "/img/sql.svg", alt: "SQL" },
-  { src: "/img/pandas.svg", alt: "Pandas" },
-  { src: "/img/tensorflow.png", alt: "TensorFlow" },
-  { src: "/img/assembly.svg", alt: "Assembly" },
-  { src: "/img/cpp.svg", alt: "C++" },
 ]
 
 export default function OrbitingSkills() {
