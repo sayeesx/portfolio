@@ -12,7 +12,7 @@ const projects = [
     tech: "AI + Blockchain + ML + Retail Automation",
     tags: ["AI", "Blockchain", "Automation"],
     timeAgo: "New",
-    projectLink: "#",
+    projectLink: "https://miznet.vercel.app/",
     description: "Miznet is a smart, AI-powered, blockchain-integrated platform designed to automate and optimize retail supply chains — from warehouse to shelf to billing. It tracks every product in real-time, eliminates manual inventory work, predicts demand using machine learning, and ensures seamless restocking with zero human intervention. Miznet empowers modern retailers to reduce stockouts, cut operational costs, and stay ahead with data-driven decisions."
   },
   {
