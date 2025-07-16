@@ -2,15 +2,25 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import Image from "next/image";
-import ChromaGrid from "./ChromaGrid";
+import ProjectCard from "./ProjectCard";
 
 const projects = [
-    {
+  {
+    id: 6,
+    title: "Miznet",
+    image: "/assets/miznet.png",
+    tech: "AI + Blockchain + ML + Retail Automation",
+    tags: ["Retail", "AI", "Blockchain", "Automation"],
+    timeAgo: "New",
+    projectLink: "#",
+    description: "Miznet is a smart, AI-powered, blockchain-integrated platform designed to automate and optimize retail supply chains — from warehouse to shelf to billing. It tracks every product in real-time, eliminates manual inventory work, predicts demand using machine learning, and ensures seamless restocking with zero human intervention. Miznet empowers modern retailers to reduce stockouts, cut operational costs, and stay ahead with data-driven decisions."
+  },
+  {
     id: 1,
     title: "AI - Integrated Blockchain",
     image: "/assets/blockchain.png",
     tech: "Python - Flask,Fast API,Gunicorn, SQL",
+    tags: ["AI", "Blockchain"],
     timeAgo: "In Development",
     projectLink: "https://github.com/sayeesx/blockchain",
   },
@@ -19,6 +29,7 @@ const projects = [
     title: "Exquio",
     image: "/assets/healo.webp",
     tech: "python + react native + supabase + tailwind css",
+    tags: ["Mobile", "Health"],
     timeAgo: "4 months ago",
     projectLink: "https://github.com/sayeesx/exquio",
   },
@@ -27,6 +38,7 @@ const projects = [
     title: "Roamio",
     image: "/assets/roamio.webp",
     tech: "Next.js + Supabase + MySQL + Java + Machine Learning + AI",
+    tags: ["Travel", "AI"],
     timeAgo: "1 year ago",
     projectLink: "https://github.com/sayeesx/roamio",
   },
@@ -35,6 +47,7 @@ const projects = [
     title: "ZapIT",
     image: "/assets/zapit.webp",
     tech: "React + TypeScript",
+    tags: ["Web", "Productivity"],
     timeAgo: "2 years ago",
     projectLink: "https://github.com/sayeesx/zapit",
   },
@@ -43,36 +56,36 @@ const projects = [
     title: "Requery",
     image: "/assets/requery.webp",
     tech: "html + css + js + MySQL",
+    tags: ["Web", "Database"],
     timeAgo: "2 years ago",
     projectLink: "https://github.com/sayeesx/requery-empire",
   },
-  
 ];
 
-const chromaProjects = projects.map((p) => ({
-  image: p.image,
-  title: p.title,
-  subtitle: p.tech,
-  handle: p.timeAgo,
-  borderColor: "#4F46E5", // You can customize per project
-  gradient: "linear-gradient(145deg, #4F46E5, #000)", // Or set per project
-}));
-
 const ProjectsSectionContent = ({ isMobile }) => {
-  const projectsToDisplay = isMobile ? chromaProjects.slice(0, 2) : chromaProjects;
+  const projectsToDisplay = isMobile ? projects.slice(0, 2) : projects;
   const router = useRouter();
   const handleCardClick = () => {
     router.push('/works');
   };
   return (
     <>
-      <div className="flex justify-center flex-wrap gap-6 pb-16 px-2 md:px-0 font-sans" onClick={handleCardClick} style={{cursor: 'pointer'}}>
-        <ChromaGrid 
-          items={projectsToDisplay} 
-          columns={isMobile ? 1 : 3} 
-          rows={isMobile ? 2 : 2} 
-          cardClassName="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg p-2 md:p-4 font-sans text-base md:text-lg border-0 mb-0 text-center"
-        />
+      <div
+        className="flex justify-center flex-wrap gap-6 pb-16 px-2 md:px-0 font-sans"
+        style={{ cursor: "pointer" }}
+      >
+        {projectsToDisplay.map((project) => (
+          <div key={project.id} onClick={handleCardClick}>
+            <ProjectCard
+              image={project.image}
+              title={project.title}
+              tech={project.tech}
+              tags={project.tags}
+              projectLink={project.projectLink}
+              shadow
+            />
+          </div>
+        ))}
       </div>
       {/* Button */}
       <div className="text-center mt-8 md:mt-12 mb-16 md:mb-24 font-sans">
