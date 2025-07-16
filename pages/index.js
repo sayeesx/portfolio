@@ -8,12 +8,9 @@ import SkillsSection from "../components/SkillsSection"
 import FullContactSection from "../components/FullContactSection"
 import throttle from "lodash.throttle"
 import { useEffect, useRef, useState, Suspense } from "react"
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { OrbitingCircles } from "@/components/magicui/orbiting-circles";
 import { File, Settings, Search } from "lucide-react";
 import OrbitingSkills from "@/components/orbiting-skills";
-gsap.registerPlugin(ScrollTrigger);
 
 // Lazy load heavy/scroll-sensitive components
 const ProjectsSection = dynamic(() => import("../components/ProjectsSection"), { ssr: false })
@@ -66,46 +63,6 @@ export default function Component() {
     handleResize()
     window.addEventListener("resize", handleResize)
     return () => window.removeEventListener("resize", handleResize)
-  }, [])
-
-  // GSAP entrance and scroll-based animations for smoothness
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    // Animate HeroSection entrance
-    if (heroRef.current) {
-      gsap.fromTo(
-        heroRef.current,
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1.2,
-          ease: "power3.out",
-        }
-      );
-    }
-    // Animate ProjectsSection on scroll
-    if (projectsSectionRef.current) {
-      gsap.fromTo(
-        projectsSectionRef.current,
-        { opacity: 0, y: 60 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1.2,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: projectsSectionRef.current,
-            start: "top 80%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
-    }
-    // Clean up triggers
-    return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
   }, [])
 
   // Set smooth scroll globally (in useEffect to avoid SSR issues)

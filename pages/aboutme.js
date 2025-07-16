@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import Layout from "../components/Layout"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
+import NavButtons from '../components/NavButtons';
 
 export default function About() {
   const timelineData = [
@@ -139,6 +140,7 @@ export default function About() {
 
   return (
     <Layout>
+      <NavButtons rightLabel="My Projects" rightHref="/works" rightIcon={<ArrowRight className="w-3 h-3" />} />
       <style jsx global>{`
         @keyframes flow {
           0% {
@@ -489,15 +491,7 @@ export default function About() {
         }
       `}</style>
 
-      <button onClick={() => (window.location.href = "/")} className={`back-button ${showBackButton ? "" : "hidden"}`}>
-        <ArrowRight className="w-3 h-3 rotate-180" />
-        Back to Home
-      </button>
-
-      <Link href="/skills" className={`skills-button ${showBackButton ? "" : "hidden"}`}>
-        My Skills
-        <ArrowRight className="w-3 h-3" />
-      </Link>
+      {/* Remove all <button> and <Link> nav buttons previously used for navigation */}
 
       <div ref={containerRef} className="max-w-4xl mx-auto px-4 py-2 timeline-container">
         <h1 className="text-4xl font-bold text-center mb-2 text-black">About Me</h1>

@@ -4,6 +4,7 @@ import React from 'react';
 import Layout from '../components/Layout';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import NavButtons from '../components/NavButtons';
 
 const Works = () => {
   const projects = [
@@ -96,6 +97,7 @@ const Works = () => {
 
   return (
     <Layout>
+      <NavButtons rightLabel="My Skills" rightHref="/skills" rightIcon={<ArrowRight className="w-3 h-3" />} />
       <style jsx global>{`
         @keyframes flow {
           0% { background-position: 0% 50%; }
@@ -217,15 +219,7 @@ const Works = () => {
         }
       `}</style>
 
-      <button onClick={() => (window.location.href = "/")} className={`back-button ${showBackButton ? "" : "hidden"}`}>
-        <ArrowRight className="w-3 h-3 rotate-180" />
-        Back to Home
-      </button>
-
-      <Link href="/contact" className={`contact-button ${showBackButton ? "" : "hidden"}`}>
-        Contact Me
-        <ArrowRight className="w-3 h-3" />
-      </Link>
+      {/* Remove all <button> and <Link> nav buttons previously used for navigation */}
 
       <div className="max-w-7xl mx-auto px-4 py-8 mt-20">
         <h1 className="project-heading">My Projects</h1>

@@ -5,6 +5,7 @@ import { CheckCircle, Github, Linkedin, Twitter, Mail, Instagram, Facebook, Arro
 import emailjs from "emailjs-com"
 import Layout from "@/components/Layout"
 import Link from "next/link"
+import NavButtons from '../components/NavButtons';
 
 export default function Component() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" })
@@ -87,6 +88,7 @@ export default function Component() {
 
   return (
     <Layout>
+      <NavButtons />
       <style jsx global>{`
         @keyframes flow {
           0% { background-position: 0% 50%; }
@@ -199,16 +201,6 @@ export default function Component() {
           }
         }
       `}</style>
-
-      <button onClick={() => (window.location.href = "/works")} className={`back-button ${showBackButton ? "" : "hidden"}`}>
-        <ArrowRight className="w-3 h-3 rotate-180" />
-        Back to Projects
-      </button>
-
-      <button onClick={() => (window.location.href = "/")} className={`home-button ${showBackButton ? "" : "hidden"}`}>
-        Home
-        <Home className="w-3 h-3" />
-      </button>
 
       {status.type === "success" && (
         <div className="fixed inset-0 pointer-events-none flex items-center justify-center z-50">

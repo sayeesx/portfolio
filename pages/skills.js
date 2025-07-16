@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import Layout from '../components/Layout'
 import ChatWidget from '../components/chatWidget'
+import NavButtons from '../components/NavButtons';
 
 const webDevSkills = [
   { name: 'JavaScript', logo: '/img/javascript.svg', projects: ['Interactive Web App',] },
@@ -82,26 +83,7 @@ export default function SkillsPage() {
         <title>My Skills</title>
         <meta name="description" content="A showcase of my programming skills and projects" />
       </Head>
-
-      <Link 
-        href="/"
-        className={`fixed top-6 left-6 z-50 flex items-center gap-1 px-3 py-1.5 text-black hover:text-[#3d5be0] transition-all duration-300 text-xs ${
-          showBackButton ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
-        }`}
-      >
-        <ArrowLeft className="w-3 h-3" />
-        Back to Home
-      </Link>
-
-      <Link 
-        href="/works"
-        className={`fixed top-6 right-6 z-50 flex items-center gap-1 px-3 py-1.5 text-black hover:text-[#3d5be0] transition-all duration-300 border border-black rounded-full hover:bg-black/5 text-xs ${
-          showBackButton ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
-        }`}
-      >
-        My Projects
-        <ArrowRight className="w-3 h-3" />
-      </Link>
+      <NavButtons rightLabel="Contact Me" rightHref="/contact" rightIcon={<ArrowRight className="w-3 h-3" />} />
 
       <div className="min-h-screen bg-white py-20">
         <div className="container mx-auto px-4">

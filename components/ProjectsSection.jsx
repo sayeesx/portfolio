@@ -10,7 +10,7 @@ const projects = [
     title: "Miznet",
     image: "/assets/miznet.png",
     tech: "AI + Blockchain + ML + Retail Automation",
-    tags: ["Retail", "AI", "Blockchain", "Automation"],
+    tags: ["AI", "Blockchain", "Automation"],
     timeAgo: "New",
     projectLink: "#",
     description: "Miznet is a smart, AI-powered, blockchain-integrated platform designed to automate and optimize retail supply chains — from warehouse to shelf to billing. It tracks every product in real-time, eliminates manual inventory work, predicts demand using machine learning, and ensures seamless restocking with zero human intervention. Miznet empowers modern retailers to reduce stockouts, cut operational costs, and stay ahead with data-driven decisions."
@@ -102,27 +102,11 @@ const ProjectsSectionContent = ({ isMobile }) => {
 };
 
 export default function ProjectsSection({ isMobile, projectsSectionRef }) {
-  const [isProjectsVisible, setIsProjectsVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setIsProjectsVisible(true);
-      },
-      { threshold: 0.1 }
-    );
-    const section = document.getElementById("projects-section");
-    if (section) observer.observe(section);
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <section
       id="projects-section"
       ref={projectsSectionRef}
-      className={`min-h-screen pt-2 mt-8 transition-all duration-1000 ease-out transform ${
-        isProjectsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-      }`}
+      className="min-h-screen pt-2 mt-8 opacity-100 translate-y-0"
     >
       <div className="max-w-7xl mx-auto px-4">
         <h2 className="text-2xl md:text-4xl font-bold text-center mb-8 md:mb-16 text-shadow-3d">
