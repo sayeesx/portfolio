@@ -8,51 +8,61 @@ import NavButtons from '../components/NavButtons';
 
 export default function About() {
   const timelineData = [
-    {
-      id: 1,
-      date: "2021 - 2023",
-      title: "Higher Secondary Education",
-      institution: "NHHSS Kottakkal",
-      details: ["Science Stream"],
-      fullDetails:
-        "Completed higher secondary education with a focus on the Science stream with computer science laying a strong foundation for future academic pursuits.",
-    },
-    {
-      id: 2,
-      date: "2023 - 2026",
-      title: "BCA",
-      institution: "Yenepoya Deemed-To-Be University",
-      details: ["Computer Science"],
-      fullDetails:
-        "Currently pursuing a Bachelor's degree in Computer Applications, gaining comprehensive knowledge in various aspects of computer science and technology.",
-    },
-    {
-      id: 3,
-      date: "2019 - present",
-      title: "Trading Experience",
-      institution: "Self-employed",
-      details: ["Stock Market & Crypto Investments"],
-      fullDetails:
-        "Gained practical experience in stock market trading, developing skills in market analysis, risk management, and financial decision-making.",
-    },
-    {
-      id: 4,
-      date: "2023 - Present",
-      title: "Software Developer Intern",
-      institution: "Cyber Square",
-      details: ["Web Development", "Full Stack Development", "Artificial Intelligence", "Data Science"],
-      fullDetails:
-        "Worked as a Software Developer Intern at Cyber Square, focusing on web and full-stack development. Gaining hands-on experience in project management and cutting-edge technologies.",
-    },
-    {
-      id: 5,
-      date: "Future",
-      title: "Journey Continues",
-      institution: "Next Chapter",
-      details: ["More adventures await..."],
-      isFinal: true,
-    },
-  ]
+  {
+    id: 1,
+    date: "2019 - Present",
+    title: "Trading Experience",
+    institution: "Self-employed",
+    details: ["Stock Market Investment", "Crypto Trading", "Crypto Investment", "Forex Trading"],
+    fullDetails:
+      "Started with stock market investments in 2019, and later expanded into cryptocurrency trading and long-term crypto investments. Gained over 2 years of experience in forex trading. Built deep expertise in market trends, technical analysis, and risk management.",
+  },
+  {
+    id: 2,
+    date: "2021 - 2023",
+    title: "Higher Secondary Education",
+    institution: "NHHSS Kottakkal",
+    details: ["Science Stream"],
+    fullDetails:
+      "Completed higher secondary education at NHHSS Kottakkal in the Science stream with Computer Science as an elective, laying a strong foundation in analytical thinking and programming.",
+  },
+  {
+    id: 3,
+    date: "2023 - 2026 (Ongoing)",
+    title: "Bachelor of Computer Applications (BCA)",
+    institution: "Yenepoya Deemed-To-Be University",
+    details: ["Computer Applications", "AI & Web Development Focus"],
+    fullDetails:
+      "Currently pursuing BCA at Yenepoya University with a focus on computer applications, software development, and AI. Actively engaging in hands-on projects to deepen understanding of programming, databases, and web technologies.",
+  },
+  {
+    id: 4,
+    date: "2023 - Present",
+    title: "Software Developer Intern",
+    institution: "Cyber Square",
+    details: ["Full Stack Development", "AI Integration", "Data Science"],
+    fullDetails:
+      "Working as a Software Developer Intern at Cyber Square. Contributing to full-stack web applications, integrating AI features, and working on real-time data-driven projects. Gained experience in project execution, version control, and modern frameworks.",
+  },
+  {
+    id: 5,
+    date: "2024",
+    title: "AI Engineer Diploma with Internship",
+    institution: "Datamites",
+    details: ["Artificial Intelligence", "Offline Course", "Hands-on Internship"],
+    fullDetails:
+      "Completed an offline AI Engineer diploma program that included an in-depth internship. Gained practical skills in machine learning, neural networks, and Python-based AI development.",
+  },
+  {
+    id: 6,
+    date: "Future",
+    title: "Journey Continues",
+    institution: "Next Chapter",
+    details: ["More adventures await..."],
+    isFinal: true,
+  }
+]
+
 
   const [activeSection, setActiveSection] = useState(1)
   const [flippedCards, setFlippedCards] = useState({})
@@ -496,9 +506,10 @@ export default function About() {
       <div ref={containerRef} className="max-w-4xl mx-auto px-4 py-2 timeline-container">
         <h1 className="text-4xl font-bold text-center mb-2 text-black">About Me</h1>
         <p className="max-w-2xl mx-auto mb-8 text-black text-center glassmorphic p-6 rounded-xl">
-          I am a student pursuing a Bachelor&apos;s degree in Computer Applications and currently an intern at Cyber
-          Square. I specialize in building startups and websites, with experience in trading and development.
-        </p>
+       I am currently pursuing a Bachelor's degree in Computer Applications and interning as an AI Engineer at Rubixe AI, Bangalore. I specialize in building AI models, data analysis, and deploying intelligent systems. With hands-on experience in machine learning, web development, and trading across stocks, crypto, and forex, I am passionate about leveraging AI to solve real-world problems.
+      </p>
+
+
 
         <h2 className="timeline-heading text-black">My Journey</h2>
 
