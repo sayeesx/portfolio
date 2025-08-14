@@ -1,100 +1,270 @@
-.page {
-  --gray-rgb: 0, 0, 0;
-  --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
-  --gray-alpha-100: rgba(var(--gray-rgb), 0.05);
-
-  --button-primary-hover: #383838;
-  --button-secondary-hover: #f2f2f2;
-
-  display: grid;
-  grid-template-rows: 20px 1fr 20px;
-  align-items: center;
-  justify-items: center;
-  min-height: 100svh;
-  padding: 80px;
-  gap: 64px;
-  font-family: var(--font-geist-sans);
+/* Section styles */
+.section {
+  padding: var(--section-padding);
+  position: relative;
+  font-family: var(--body-font);
+  /* Natural document flow for smoother scroll */
+  /* Background is now on body for seamless flow */
 }
 
-@media (prefers-color-scheme: dark) {
-  .page {
-    --gray-rgb: 255, 255, 255;
-    --gray-alpha-200: rgba(var(--gray-rgb), 0.145);
-    --gray-alpha-100: rgba(var(--gray-rgb), 0.06);
+/* Remove gradient breaks - they create visual dividers */
+/* .section::before and .section::after removed */
 
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 4rem;
+  padding: 0 1rem;
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #e7e7e7;
+  margin-bottom: 1rem;
+  line-height: 1.15;
+  font-family: var(--heading-font);
+}
+
+.sectionSubtitle {
+  font-size: 1.25rem;
+  color: #b0b0b0;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+  font-family: var(--body-font);
+}
+
+/* About section */
+.aboutSection {
+  /* Uses unified gradient background from .section */
+  color: var(--text-primary);
+}
+
+.aboutContent {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.aboutText {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-bottom: 3rem;
+}
+
+.aboutText p {
+  margin-bottom: 1.5rem;
+}
+
+.skills {
+  margin-top: 3rem;
+}
+
+.skills h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  font-family: var(--heading-font);
+}
+
+.skillsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.skillTag {
+  background: rgba(122, 76, 224, 0.1);
+  color: var(--gradient-start);
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: 1px solid rgba(122, 76, 224, 0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  /* Prevent text selection on mobile */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.skillTag:hover {
+  background: rgba(122, 76, 224, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(122, 76, 224, 0.3);
+}
+
+/* Projects section */
+.projectsSection {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Remove the overlay that was creating visual separation */
+/* .projectsSection::before removed */
+
+.projectsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+  padding: 0 1rem;
+}
+
+.viewMore {
+  text-align: center;
+  margin-top: 4rem;
+  padding: 0 1rem;
+}
+
+.viewMore .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 2rem;
+  border-radius: 9999px;
+  font-size: 1rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--deep-purple), var(--bright-blue));
+  color: var(--white);
+  text-decoration: none;
+  transition: var(--transition);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(61, 82, 160, 0.25);
+  font-family: var(--body-font);
+  /* Prevent text selection on mobile */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.viewMore .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(61, 82, 160, 0.35);
+}
+
+/* Contact section */
+.contactSection {
+  /* Uses unified gradient background from .section */
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.contactContent {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.contactContent p {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+  .projectsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+  
+  .section {
+    min-height: auto;
+    padding: 6rem 0;
   }
 }
 
-.main {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  grid-row-start: 2;
+@media (max-width: 768px) {
+  .section {
+    padding: 4rem 0;
+    min-height: auto;
+  }
+  
+  .sectionTitle {
+    font-size: 2rem;
+  }
+  
+  .sectionSubtitle {
+    font-size: 1.1rem;
+  }
+  
+  .projectsGrid {
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+  }
+  
+  .skillsGrid {
+    gap: 0.5rem;
+  }
+  
+  .skillTag {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+  }
+  
+  /* Optimize for mobile touch */
+  .skillTag:active {
+    transform: scale(0.95);
+  }
+  
+  .viewMore .btn:active {
+    transform: scale(0.95);
+  }
 }
 
-.main ol {
-  font-family: var(--font-geist-mono);
-  padding-left: 0;
-  margin: 0;
-  font-size: 14px;
-  line-height: 24px;
-  letter-spacing: -0.01em;
-  list-style-position: inside;
+@media (max-width: 480px) {
+  .section {
+    padding: 3rem 0;
+  }
+  
+  .sectionHeader {
+    margin-bottom: 2.5rem;
+  }
+  
+  .sectionTitle {
+    font-size: 1.75rem;
+  }
+  
+  .sectionSubtitle {
+    font-size: 1rem;
+  }
+  
+  .projectsGrid {
+    grid-template-columns: 1fr;
+    padding: 0 0.5rem;
+  }
+  
+  .aboutText {
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+  
+  .skillsGrid {
+    padding: 0 1rem;
+  }
+  
+  .viewMore {
+    padding: 0 1rem;
+  }
 }
 
-.main li:not(:last-of-type) {
-  margin-bottom: 8px;
-}
-
-.main code {
-  font-family: inherit;
-  background: var(--gray-alpha-100);
-  padding: 2px 4px;
-  border-radius: 4px;
-  font-weight: 600;
-}
-
-.ctas {
-  display: flex;
-  gap: 16px;
-}
-
-.ctas a {
-  appearance: none;
-  border-radius: 128px;
-  height: 48px;
-  padding: 0 20px;
-  border: 1px solid transparent;
-  transition:
-    background 0.2s,
-    color 0.2s,
-    border-color 0.2s;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  line-height: 20px;
-  font-weight: 500;
-}
-
-a.primary {
-  background: var(--foreground);
-  color: var(--background);
-  gap: 8px;
-}
-
-a.secondary {
-  border-color: var(--gray-alpha-200);
-  min-width: 158px;
-}
-
-.footer {
-  grid-row-start: 3;
-  display: flex;
-  gap: 24px;
+/* iOS specific optimizations */
+@supports (-webkit-touch-callout: none) {
+  .section {
+    /* Prevent rubber band scrolling issues on iOS */
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .skillTag, .viewMore .btn {
+    /* Better touch feedback on iOS */
+    -webkit-tap-highlight-color: rgba(122, 76, 224, 0.2);
+  }
 }
 
 .footer a {

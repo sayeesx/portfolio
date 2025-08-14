@@ -1,0 +1,271 @@
+/* Gradient Text Effect */
+.gradientText {
+  background: linear-gradient(90deg, #7A4CE0 0%, #2F6FED 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: block;
+  line-height: 1;
+  margin: 0.1em 0;
+}
+
+/* Blob Animation */
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+  filter: blur(40px);
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+/* Hero layout */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  /* Prevent layout shifts */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.heroBackground {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  /* Prevent background from causing layout issues */
+  pointer-events: none;
+}
+
+.blob {
+  position: absolute;
+  width: 24rem;
+  height: 24rem;
+  border-radius: 9999px;
+  mix-blend-mode: multiply;
+  filter: blur(64px);
+  opacity: 0.7;
+  animation: blob 7s infinite;
+  /* Optimize for mobile */
+  will-change: transform;
+}
+
+.blobPurple { top: 25%; left: -5rem; background: rgba(122, 76, 224, 0.15); }
+.blobBlue { top: 50%; right: -5rem; background: rgba(47, 111, 237, 0.15); }
+.blobPink { bottom: -5rem; left: 50%; transform: translateX(-50%); background: rgba(244, 114, 182, 0.12); }
+.delay2000 { animation-delay: 2s; }
+.delay4000 { animation-delay: 4s; }
+
+.heroContainer {
+  width: 100%;
+  /* Prevent layout shifts */
+  box-sizing: border-box;
+}
+
+.heroInner {
+  max-width: 72rem; /* 1152px */
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  text-align: center;
+  /* Prevent layout shifts */
+  box-sizing: border-box;
+}
+
+.heroTitle {
+  font-family: var(--heading-font);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+  margin-bottom: 2rem;
+  font-size: clamp(2.5rem, 7vw, 8rem);
+  /* Prevent text selection on mobile */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.block { display: block; }
+
+.heroSubtitle {
+  color: #9CA3AF; /* neutral-400 */
+  font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+  max-width: 42rem;
+  margin: 0 auto 3rem auto;
+  /* Prevent text selection on mobile */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.cta { }
+
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  border-radius: 9999px;
+  background: var(--white);
+  color: var(--black);
+  font-weight: 800;
+  font-size: 1.125rem;
+  transition: transform 0.3s ease, background 0.3s ease;
+  text-decoration: none;
+  /* Prevent text selection on mobile */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /* Better touch feedback */
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0.2);
+}
+
+.ctaButton:hover { 
+  transform: scale(1.05); 
+  background: rgba(255,255,255,0.9); 
+}
+
+.ctaButton:active {
+  transform: scale(0.95);
+}
+
+.ctaIcon { margin-left: 0.5rem; }
+
+.scrollPrompt {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #6B7280; /* neutral-500 */
+  font-size: 0.875rem;
+  /* Prevent text selection on mobile */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.scrollLine {
+  width: 1px;
+  height: 3rem;
+  margin-top: 0.5rem;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(255,255,255,0));
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+  .gradientText {
+    font-size: 2.5rem;
+  }
+  
+  .hero {
+    min-height: 100vh;
+    padding: 0 1rem;
+  }
+  
+  .heroInner {
+    padding: 0 1rem;
+  }
+  
+  .heroTitle {
+    font-size: clamp(2rem, 8vw, 4rem);
+    margin-bottom: 1.5rem;
+  }
+  
+  .heroSubtitle {
+    font-size: clamp(1rem, 4vw, 1.25rem);
+    margin-bottom: 2rem;
+  }
+  
+  .ctaButton {
+    padding: 0.875rem 1.75rem;
+    font-size: 1rem;
+  }
+  
+  .scrollPrompt {
+    bottom: 2rem;
+    font-size: 0.75rem;
+  }
+  
+  .scrollLine {
+    height: 2rem;
+  }
+  
+  /* Optimize blobs for mobile */
+  .blob {
+    width: 16rem;
+    height: 16rem;
+    filter: blur(40px);
+  }
+  
+  .blobPurple { top: 20%; left: -3rem; }
+  .blobBlue { top: 60%; right: -3rem; }
+  .blobPink { bottom: -3rem; }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 0 0.5rem;
+  }
+  
+  .heroInner {
+    padding: 0 0.5rem;
+  }
+  
+  .heroTitle {
+    font-size: clamp(1.75rem, 10vw, 3rem);
+    margin-bottom: 1rem;
+  }
+  
+  .heroSubtitle {
+    font-size: clamp(0.875rem, 4.5vw, 1.125rem);
+    margin-bottom: 1.5rem;
+  }
+  
+  .ctaButton {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+  }
+  
+  /* Further optimize blobs for small screens */
+  .blob {
+    width: 12rem;
+    height: 12rem;
+    filter: blur(30px);
+  }
+}
+
+/* iOS specific optimizations */
+@supports (-webkit-touch-callout: none) {
+  .hero {
+    /* Prevent rubber band scrolling issues on iOS */
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .ctaButton {
+    /* Better touch feedback on iOS */
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.3);
+  }
+}

@@ -1,0 +1,178 @@
+/* Base button styles */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  font-family: var(--body-font);
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  border: 2px solid transparent;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: var(--transition);
+  overflow: hidden;
+  line-height: 1.5;
+}
+
+/* Button variants */
+.variant-primary {
+  background: linear-gradient(135deg, var(--deep-purple), var(--bright-blue));
+  color: var(--white);
+  box-shadow: 0 4px 15px rgba(61, 82, 160, 0.2);
+}
+
+.variant-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--bright-blue), var(--muted-blue));
+  box-shadow: 0 6px 20px rgba(61, 82, 160, 0.3);
+}
+
+.variant-secondary {
+  background: var(--white);
+  color: var(--deep-purple);
+  border-color: var(--light-lavender);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.variant-secondary:hover:not(:disabled) {
+  background: var(--light-lavender);
+  border-color: var(--soft-lavender);
+}
+
+.variant-outline {
+  background: transparent;
+  color: var(--deep-purple);
+  border: 2px solid var(--deep-purple);
+}
+
+.variant-outline:hover:not(:disabled) {
+  background: rgba(61, 82, 160, 0.05);
+}
+
+.variant-ghost {
+  background: transparent;
+  color: var(--deep-purple);
+}
+
+.variant-ghost:hover:not(:disabled) {
+  background: rgba(61, 82, 160, 0.05);
+}
+
+.variant-link {
+  background: transparent;
+  color: var(--deep-purple);
+  text-decoration: underline;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.variant-link:hover:not(:disabled) {
+  text-decoration: none;
+  background: rgba(61, 82, 160, 0.05);
+}
+
+/* Button sizes */
+.size-sm {
+  padding: 0.4rem 1.2rem;
+  font-size: 0.85rem;
+}
+
+.size-md {
+  padding: 0.75rem 1.75rem;
+  font-size: 1rem;
+}
+
+.size-lg {
+  padding: 0.9rem 2.25rem;
+  font-size: 1.1rem;
+}
+
+/* Button states */
+.button:disabled,
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+/* Icon styles */
+.leftIcon {
+  display: inline-flex;
+  margin-right: 0.5rem;
+  font-size: 1.2em;
+  line-height: 1;
+}
+
+.rightIcon {
+  display: inline-flex;
+  margin-left: 0.5rem;
+  font-size: 1.2em;
+  line-height: 1;
+}
+
+/* Loading state */
+.loading .content,
+.loading .leftIcon,
+.loading .rightIcon {
+  visibility: hidden;
+}
+
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  width: 100%;
+  height: 100%;
+}
+
+.loader span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: currentColor;
+  animation: bounce 1.4s infinite ease-in-out both;
+}
+
+.loader span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.loader span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .size-md {
+    padding: 0.65rem 1.5rem;
+    font-size: 0.95rem;
+  }
+  
+  .size-lg {
+    padding: 0.8rem 2rem;
+    font-size: 1.05rem;
+  }
+}

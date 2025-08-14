@@ -1,0 +1,195 @@
+.navbar {
+  position: relative;
+  width: 100%;
+  z-index: 1000;
+  padding: 1.5rem 0;
+  transition: all 0.3s ease;
+  background-color: transparent;
+  /* Remove backdrop-filter and fixed positioning */
+  /* Prevent layout shifts */
+  box-sizing: border-box;
+}
+
+.scrolled {
+  /* Remove background color changes on scroll */
+  background-color: transparent;
+  /* Remove backdrop-filter */
+  /* Remove box-shadow */
+  padding: 1.5rem 0;
+}
+
+.navbarContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  /* Prevent layout shifts */
+  box-sizing: border-box;
+}
+
+.logo {
+  font-family: var(--heading-font);
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: var(--deep-purple);
+  text-decoration: none;
+  transition: var(--transition);
+  /* Prevent text selection on mobile */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.logo:hover {
+  color: var(--bright-blue);
+}
+
+.navList {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+.navLink {
+  position: relative;
+  font-weight: 600;
+  color: var(--muted-blue);
+  text-decoration: none;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  transition: var(--transition);
+  padding: 0.5rem 0;
+  /* Prevent text selection on mobile */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.navLink:hover {
+  color: var(--bright-blue);
+}
+
+.active {
+  color: var(--deep-purple);
+  font-weight: 700;
+}
+
+.activeIndicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--deep-purple);
+  transition: width 0.3s ease;
+}
+
+.active .activeIndicator {
+  width: 100%;
+}
+
+/* Mobile menu styles */
+.menuButton {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--deep-purple);
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 1001;
+  /* Better touch feedback */
+  -webkit-tap-highlight-color: rgba(122, 76, 224, 0.2);
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+.menuButton:active {
+  transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
+  .menuButton {
+    display: block;
+  }
+  
+  .nav {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 70%;
+    height: 100vh;
+    background-color: var(--light-lavender);
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    transition: right 0.3s ease;
+    padding: 6rem 2rem 2rem;
+    z-index: 1000;
+    /* Prevent layout shifts */
+    box-sizing: border-box;
+  }
+  
+  .nav.active {
+    right: 0;
+  }
+  
+  .navList {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .navLink {
+    font-size: 1.1rem;
+    padding: 0.75rem 0;
+  }
+  
+  .navbarContainer {
+    padding: 0 1rem;
+  }
+  
+  .logo {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 1rem 0;
+  }
+  
+  .scrolled {
+    padding: 0.75rem 0;
+  }
+  
+  .navbarContainer {
+    padding: 0 0.75rem;
+  }
+  
+  .logo {
+    font-size: 1.125rem;
+  }
+  
+  .nav {
+    width: 80%;
+    padding: 5rem 1.5rem 2rem;
+  }
+  
+  .navLink {
+    font-size: 1rem;
+  }
+}
+
+/* iOS specific optimizations */
+@supports (-webkit-touch-callout: none) {
+  .navbar {
+    /* Prevent rubber band scrolling issues on iOS */
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .menuButton {
+    /* Better touch feedback on iOS */
+    -webkit-tap-highlight-color: rgba(122, 76, 224, 0.3);
+  }
+}
