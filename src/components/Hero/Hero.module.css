@@ -41,13 +41,37 @@
 /* Hero layout */
 .hero {
   position: relative;
-  min-height: 100vh;
+  min-height: 120vh;
   display: flex;
   align-items: center;
   overflow: hidden;
   /* Prevent layout shifts */
   width: 100%;
   box-sizing: border-box;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 20vh;
+  background: linear-gradient(to bottom, transparent, #0b0b0b);
+  z-index: 1;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .hero::after {
+    height: 15vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero::after {
+    height: 12vh;
+  }
 }
 
 .heroBackground {
@@ -79,6 +103,8 @@
 
 .heroContainer {
   width: 100%;
+  position: relative;
+  z-index: 2;
   /* Prevent layout shifts */
   box-sizing: border-box;
 }
@@ -108,7 +134,7 @@
 .block { display: block; }
 
 .heroSubtitle {
-  color: #9CA3AF; /* neutral-400 */
+  color: var(--white);
   font-size: clamp(1.125rem, 2.5vw, 1.5rem);
   max-width: 42rem;
   margin: 0 auto 3rem auto;
@@ -151,28 +177,7 @@
 
 .ctaIcon { margin-left: 0.5rem; }
 
-.scrollPrompt {
-  position: absolute;
-  bottom: 3rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #6B7280; /* neutral-500 */
-  font-size: 0.875rem;
-  /* Prevent text selection on mobile */
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  user-select: none;
-}
 
-.scrollLine {
-  width: 1px;
-  height: 3rem;
-  margin-top: 0.5rem;
-  background: linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(255,255,255,0));
-}
 
 /* Responsive Typography */
 @media (max-width: 768px) {
@@ -181,7 +186,7 @@
   }
   
   .hero {
-    min-height: 100vh;
+    min-height: 110vh;
     padding: 0 1rem;
   }
   
@@ -204,14 +209,7 @@
     font-size: 1rem;
   }
   
-  .scrollPrompt {
-    bottom: 2rem;
-    font-size: 0.75rem;
-  }
-  
-  .scrollLine {
-    height: 2rem;
-  }
+
   
   /* Optimize blobs for mobile */
   .blob {
@@ -227,6 +225,7 @@
 
 @media (max-width: 480px) {
   .hero {
+    min-height: 105vh;
     padding: 0 0.5rem;
   }
   

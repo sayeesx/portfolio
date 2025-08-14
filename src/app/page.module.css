@@ -7,6 +7,14 @@
   /* Background is now on body for seamless flow */
 }
 
+/* Remove section padding for about section to blend with hero */
+.aboutSection {
+  padding-top: 0;
+  margin-top: -10vh;
+  position: relative;
+  z-index: 2;
+}
+
 /* Remove gradient breaks - they create visual dividers */
 /* .section::before and .section::after removed */
 
@@ -19,7 +27,7 @@
 .sectionTitle {
   font-size: 2.5rem;
   font-weight: 900;
-  color: #e7e7e7;
+  color: var(--white);
   margin-bottom: 1rem;
   line-height: 1.15;
   font-family: var(--heading-font);
@@ -27,7 +35,7 @@
 
 .sectionSubtitle {
   font-size: 1.25rem;
-  color: #b0b0b0;
+  color: var(--white);
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.6;
@@ -37,19 +45,20 @@
 /* About section */
 .aboutSection {
   /* Uses unified gradient background from .section */
-  color: var(--text-primary);
+  color: var(--white);
 }
 
 .aboutContent {
   max-width: 800px;
   margin: 0 auto;
   text-align: center;
+  padding-top: 10rem;
 }
 
 .aboutText {
   font-size: 1.125rem;
   line-height: 1.7;
-  color: var(--text-secondary);
+  color: var(--white);
   margin-bottom: 3rem;
 }
 
@@ -64,7 +73,7 @@
 .skills h3 {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--white);
   margin-bottom: 1.5rem;
   font-family: var(--heading-font);
 }
@@ -152,7 +161,7 @@
 /* Contact section */
 .contactSection {
   /* Uses unified gradient background from .section */
-  color: var(--text-primary);
+  color: var(--white);
   text-align: center;
 }
 
@@ -164,7 +173,7 @@
 .contactContent p {
   font-size: 1.125rem;
   line-height: 1.7;
-  color: var(--text-secondary);
+  color: var(--white);
   margin-bottom: 2rem;
 }
 
@@ -184,6 +193,14 @@
   .section {
     padding: 4rem 0;
     min-height: auto;
+  }
+  
+  .aboutSection {
+    margin-top: -5vh;
+  }
+  
+  .aboutContent {
+    padding-top: 8rem;
   }
   
   .sectionTitle {
@@ -221,6 +238,14 @@
 @media (max-width: 480px) {
   .section {
     padding: 3rem 0;
+  }
+  
+  .aboutSection {
+    margin-top: -3vh;
+  }
+  
+  .aboutContent {
+    padding-top: 6rem;
   }
   
   .sectionHeader {

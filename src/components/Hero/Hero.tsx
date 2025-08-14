@@ -51,15 +51,7 @@ const Hero = () => {
         </div>
       </div>
 
-      <motion.div
-        className={styles.scrollPrompt}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1, duration: 0.8 }}
-      >
-        <span>Scroll down</span>
-        <div className={styles.scrollLine} />
-      </motion.div>
+
     </section>
   );
 };

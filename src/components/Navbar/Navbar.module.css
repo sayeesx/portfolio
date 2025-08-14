@@ -33,7 +33,7 @@
   font-family: var(--heading-font);
   font-weight: 800;
   font-size: 1.5rem;
-  color: var(--deep-purple);
+  color: var(--white);
   text-decoration: none;
   transition: var(--transition);
   /* Prevent text selection on mobile */
@@ -57,7 +57,7 @@
 .navLink {
   position: relative;
   font-weight: 600;
-  color: var(--muted-blue);
+  color: var(--white);
   text-decoration: none;
   font-size: 0.95rem;
   letter-spacing: 0.5px;
@@ -74,7 +74,7 @@
 }
 
 .active {
-  color: var(--deep-purple);
+  color: var(--white);
   font-weight: 700;
 }
 
@@ -84,7 +84,7 @@
   left: 0;
   width: 0;
   height: 2px;
-  background-color: var(--deep-purple);
+  background-color: var(--white);
   transition: width 0.3s ease;
 }
 
@@ -97,7 +97,7 @@
   display: none;
   background: none;
   border: none;
-  color: var(--deep-purple);
+  color: var(--white);
   font-size: 1.5rem;
   cursor: pointer;
   z-index: 1001;
