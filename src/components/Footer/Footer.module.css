@@ -3,7 +3,7 @@
   color: var(--white);
   position: relative;
   overflow: hidden;
-  padding: 5rem 0 2rem;
+  padding: 3rem 0 2rem;
   font-family: var(--body-font);
 }
 
@@ -215,7 +215,7 @@
 
 @media (max-width: 480px) {
   .footer {
-    padding: 3rem 0 2rem;
+    padding: 2rem 0 1.5rem;
   }
   
   .links {

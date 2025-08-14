@@ -82,7 +82,7 @@ const Footer = () => {
 
           <div className={styles.bottomSection}>
             <p className={styles.copyright}>
-              &copy; {currentYear} Your Name. All rights reserved.
+              &copy; {currentYear} Portfolio. All rights reserved.
             </p>
             <div className={styles.legalLinks}>
               <Link href="/privacy" className={styles.legalLink}>Privacy Policy</Link>

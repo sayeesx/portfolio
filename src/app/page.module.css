@@ -1,6 +1,6 @@
 /* Section styles */
 .section {
-  padding: var(--section-padding);
+  padding: var(--section-padding-sm);
   position: relative;
   font-family: var(--body-font);
   /* Natural document flow for smoother scroll */
@@ -10,7 +10,7 @@
 /* Remove section padding for about section to blend with hero */
 .aboutSection {
   padding-top: 0;
-  margin-top: -10vh;
+  margin-top: -5vh;
   position: relative;
   z-index: 2;
 }
@@ -52,7 +52,7 @@
   max-width: 800px;
   margin: 0 auto;
   text-align: center;
-  padding-top: 10rem;
+  padding-top: 8rem;
 }
 
 .aboutText {
@@ -185,22 +185,22 @@
   
   .section {
     min-height: auto;
-    padding: 6rem 0;
+    padding: var(--section-padding-sm);
   }
 }
 
 @media (max-width: 768px) {
   .section {
-    padding: 4rem 0;
+    padding: var(--section-padding-sm);
     min-height: auto;
   }
   
   .aboutSection {
-    margin-top: -5vh;
+    margin-top: -3vh;
   }
   
   .aboutContent {
-    padding-top: 8rem;
+    padding-top: 6rem;
   }
   
   .sectionTitle {
@@ -237,15 +237,15 @@
 
 @media (max-width: 480px) {
   .section {
-    padding: 3rem 0;
+    padding: var(--section-padding-sm);
   }
   
   .aboutSection {
-    margin-top: -3vh;
+    margin-top: -2vh;
   }
   
   .aboutContent {
-    padding-top: 6rem;
+    padding-top: 4rem;
   }
   
   .sectionHeader {

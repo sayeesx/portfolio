@@ -18,28 +18,28 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Muhammed Sayees | AI & Software Engineer",
+  title: "Portfolio | AI & Software Engineer",
   description: "Building cutting-edge AI & software solutions. I design and develop digital experiences that solve complex problems.",
-  keywords: ["AI Engineer", "Software Developer", "Web Development", "Machine Learning", "Muhammed Sayees"],
-  authors: [{ name: "Muhammed Sayees" }],
+  keywords: ["AI Engineer", "Software Developer", "Web Development", "Machine Learning", "Portfolio"],
+  authors: [{ name: "Portfolio" }],
   openGraph: {
-    title: "Muhammed Sayees | AI & Software Engineer",
+    title: "Portfolio | AI & Software Engineer",
     description: "Building cutting-edge AI & software solutions. I design and develop digital experiences that solve complex problems.",
     type: 'website',
     locale: 'en_US',
     url: 'https://yourdomain.com',
-    siteName: 'Muhammed Sayees',
+    siteName: 'Portfolio',
   },
   twitter: {
     card: 'summary_large_image',
-    title: "Muhammed Sayees | AI & Software Engineer",
+    title: "Portfolio | AI & Software Engineer",
     description: "Building cutting-edge AI & software solutions. I design and develop digital experiences that solve complex problems.",
     creator: '@yourtwitter',
   },
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'Muhammed Sayees',
+    title: 'Portfolio',
   },
   formatDetection: {
     telephone: false,

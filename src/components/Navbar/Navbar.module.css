@@ -5,17 +5,7 @@
   padding: 1.5rem 0;
   transition: all 0.3s ease;
   background-color: transparent;
-  /* Remove backdrop-filter and fixed positioning */
-  /* Prevent layout shifts */
   box-sizing: border-box;
-}
-
-.scrolled {
-  /* Remove background color changes on scroll */
-  background-color: transparent;
-  /* Remove backdrop-filter */
-  /* Remove box-shadow */
-  padding: 1.5rem 0;
 }
 
 .navbarContainer {
@@ -25,8 +15,12 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1.5rem;
-  /* Prevent layout shifts */
   box-sizing: border-box;
+}
+
+.logoPlaceholder {
+  width: 120px;
+  height: 40px;
 }
 
 .logo {
@@ -36,7 +30,6 @@
   color: var(--white);
   text-decoration: none;
   transition: var(--transition);
-  /* Prevent text selection on mobile */
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
@@ -48,10 +41,13 @@
 
 .navList {
   display: flex;
+  flex-direction: row;
   list-style: none;
-  gap: 2rem;
+  gap: 1.5rem;
   margin: 0;
   padding: 0;
+  justify-content: center;
+  align-items: center;
 }
 
 .navLink {
@@ -63,7 +59,6 @@
   letter-spacing: 0.5px;
   transition: var(--transition);
   padding: 0.5rem 0;
-  /* Prevent text selection on mobile */
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
@@ -92,65 +87,27 @@
   width: 100%;
 }
 
-/* Mobile menu styles */
+/* Remove hamburger menu and mobile nav styles */
 .menuButton {
-  display: none;
-  background: none;
-  border: none;
-  color: var(--white);
-  font-size: 1.5rem;
-  cursor: pointer;
-  z-index: 1001;
-  /* Better touch feedback */
-  -webkit-tap-highlight-color: rgba(122, 76, 224, 0.2);
-  padding: 0.5rem;
-  border-radius: 4px;
-}
-
-.menuButton:active {
-  transform: scale(0.95);
+  display: none !important;
 }
 
 @media (max-width: 768px) {
-  .menuButton {
-    display: block;
-  }
-  
-  .nav {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    width: 70%;
-    height: 100vh;
-    background-color: var(--light-lavender);
-    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-    transition: right 0.3s ease;
-    padding: 6rem 2rem 2rem;
-    z-index: 1000;
-    /* Prevent layout shifts */
-    box-sizing: border-box;
-  }
-  
-  .nav.active {
-    right: 0;
-  }
-  
-  .navList {
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-  
-  .navLink {
-    font-size: 1.1rem;
-    padding: 0.75rem 0;
-  }
-  
   .navbarContainer {
     padding: 0 1rem;
   }
-  
-  .logo {
-    font-size: 1.25rem;
+  .logoPlaceholder {
+    width: 80px;
+    height: 30px;
+  }
+  .navList {
+    gap: 1rem;
+  }
+  .navLink {
+    font-size: 1rem;
+    padding: 0.5rem 0.75rem;
+    white-space: nowrap;
+    color: var(--white);
   }
 }
 
@@ -158,38 +115,19 @@
   .navbar {
     padding: 1rem 0;
   }
-  
-  .scrolled {
-    padding: 0.75rem 0;
-  }
-  
   .navbarContainer {
     padding: 0 0.75rem;
   }
-  
-  .logo {
-    font-size: 1.125rem;
+  .logoPlaceholder {
+    width: 60px;
+    height: 25px;
   }
-  
-  .nav {
-    width: 80%;
-    padding: 5rem 1.5rem 2rem;
+  .navList {
+    gap: 0.75rem;
   }
-  
   .navLink {
-    font-size: 1rem;
-  }
-}
-
-/* iOS specific optimizations */
-@supports (-webkit-touch-callout: none) {
-  .navbar {
-    /* Prevent rubber band scrolling issues on iOS */
-    -webkit-overflow-scrolling: touch;
-  }
-  
-  .menuButton {
-    /* Better touch feedback on iOS */
-    -webkit-tap-highlight-color: rgba(122, 76, 224, 0.3);
+    font-size: 0.9rem;
+    padding: 0.4rem 0.6rem;
+    color: var(--white);
   }
 }
