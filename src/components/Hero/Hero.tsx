@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { FiArrowRight } from 'react-icons/fi';
 import styles from './Hero.module.css';
+import ContainerTextFlip from "../Text Flip/container-text-flip";
+import CVDownloadButton from '../ui/Button';
 
 const Hero = () => {
   return (
@@ -16,38 +18,23 @@ const Hero = () => {
 
       <div className={styles.heroContainer}>
         <div className={styles.heroInner}>
-          <motion.h1
+          <motion.h1 
             className={styles.heroTitle}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <span className={styles.block}>Building Bold</span>
-            <span className={styles.gradientText}>AI & Software</span>
-            <span className={styles.gradientText}>Solutions</span>
-          </motion.h1>
-
-          <motion.p
-            className={styles.heroSubtitle}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           >
-            I design and develop cutting-edge AI-powered tools, web applications, and digital
-            experiences that solve complex problems.
-          </motion.p>
-
+            Muhammed Sayees
+          </motion.h1>
+          <ContainerTextFlip className={styles.heroSubtitle} words={["Student", "AI Engineer", "Software Developer", "ML engineer"]} />
           <motion.div
-            className={styles.cta}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
-            <Link href="#projects" className={styles.ctaButton}>
-              View My Work
-              <FiArrowRight className={styles.ctaIcon} />
-            </Link>
+            <CVDownloadButton />
           </motion.div>
+
         </div>
       </div>
 
