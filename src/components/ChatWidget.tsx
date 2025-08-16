@@ -19,7 +19,7 @@ export default function ChatWidget({ onClose }: ChatWidgetProps): JSX.Element {
   const [input, setInput] = useState<string>("");
   const [isSending, setIsSending] = useState<boolean>(false);
   const [isBotTyping, setIsBotTyping] = useState<boolean>(false);
-  const [error, setError] = useState<string>("");
+  const [, setError] = useState<string>("");
   const bodyRef = useRef<HTMLDivElement | null>(null);
 
   // Helper to fetch with timeout
@@ -69,11 +69,11 @@ export default function ChatWidget({ onClose }: ChatWidgetProps): JSX.Element {
       const data = await res.json();
       const reply = data?.response || "Sorry, I couldn't understand that.";
       setMessages((prev) => [...prev, { text: reply, sender: "bot" }]);
-    } catch (e: any) {
-      const msg =
-        e?.name === "AbortError"
-          ? "The server took too long to respond. Please try again later."
-          : "Unable to reach the chatbot right now. Please try again.";
+    } catch (e: unknown) {
+      const isAbort = e instanceof DOMException && e.name === "AbortError";
+      const msg = isAbort
+        ? "The server took too long to respond. Please try again later."
+        : "Unable to reach the chatbot right now. Please try again.";
       setError(msg);
       setMessages((prev) => [...prev, { text: msg, sender: "bot" }]);
     } finally {
