@@ -531,6 +531,20 @@ main {
   }
 }
 
+@keyframes shimmer {
+  from {
+    opacity: 0;
+    left: 0%;
+  }
+  50% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    left: 100%;
+  }
+}
+
 /* Utility Classes */
 .fade-in {
   animation: var(--animation-fade-in);

@@ -33,7 +33,7 @@ export function ContainerTextFlip({
   const updateWidthForWord = () => {
     if (textRef.current) {
       // Add some padding to the text width (30px on each side)
-      // @ts-expect-error
+      // @ts-expect-error scrollWidth property exists on HTML elements but TypeScript doesn't recognize it on ref.current
       const textWidth = textRef.current.scrollWidth + 30;
       setWidth(textWidth);
     }
@@ -67,6 +67,11 @@ export function ContainerTextFlip({
         "dark:shadow-[inset_0_-1px_#10171e,inset_0_0_0_1px_hsla(205,89%,46%,.24),_0_4px_8px_#00000052]",
         "px-4 md:px-6 lg:px-8",
         "min-w-[200px] md:min-w-[300px] lg:min-w-[400px]",
+        "transition-all duration-200 ease-in",
+        "hover:shadow-[inset_0_-1px_#3d6aff,inset_0_0_0_1px_#3d6aff,_0_0_30px_5px_rgba(0,142,236,0.815)]",
+        "hover:scale-105",
+        "before:content-[''] before:block before:w-0 before:h-[86%] before:absolute before:top-[7%] before:left-0 before:opacity-0 before:bg-white before:shadow-[0_0_50px_30px_#fff] before:skew-x-[-20deg] before:transition-all before:duration-200",
+        "hover:before:w-full hover:before:opacity-100 hover:before:left-full",
         className,
       )}
       key={words[currentWordIndex]}
