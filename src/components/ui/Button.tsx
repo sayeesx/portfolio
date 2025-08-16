@@ -11,19 +11,35 @@ const CVDownloadButton = () => {
 
     setIsDownloading(true)
 
-    setTimeout(() => {
-      const link = document.createElement("a")
-      link.href = "/MUHAMMED_SAYEES_CV.pdf"
-      link.download = "MUHAMMED_SAYEES_CV.pdf"
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-    }, 4000)
+    // Use a safer download approach
+    const downloadFile = () => {
+      try {
+        // Create a temporary link element
+        const link = document.createElement("a")
+        link.href = "/MUHAMMED_SAYEES_CV.pdf"
+        link.download = "MUHAMMED_SAYEES_CV.pdf"
+        link.style.display = "none"
+        
+        // Append to body
+        document.body.appendChild(link)
+        
+        // Trigger download
+        link.click()
+        
+        // Remove from DOM safely
+        if (link.parentNode) {
+          link.parentNode.removeChild(link)
+        }
+        
+      } catch (error) {
+        console.error('Download error:', error)
+      } finally {
+        setIsDownloading(false)
+      }
+    }
 
-    // Reset after animation completes
-    setTimeout(() => {
-      setIsDownloading(false)
-    }, 4000)
+    // Simulate loading time
+    setTimeout(downloadFile, 4000)
   }
 
   const handleOpen = () => {
@@ -49,7 +65,7 @@ const CVDownloadButton = () => {
           </span>
           <p className="title">Download My CV</p>
           <p className="title" onClick={handleOpen} style={{ cursor: "pointer" }}>
-            Open
+            Success
           </p>
         </label>
       </div>

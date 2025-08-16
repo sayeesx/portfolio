@@ -1,8 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { FiArrowRight } from 'react-icons/fi';
 import styles from './Hero.module.css';
 import ContainerTextFlip from "../Text Flip/container-text-flip";
 import CVDownloadButton from '../ui/Button';
@@ -18,6 +16,14 @@ const Hero = () => {
 
       <div className={styles.heroContainer}>
         <div className={styles.heroInner}>
+          <motion.div
+            className={styles.heroGreeting}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          >
+            Hey, I am
+          </motion.div>
           <motion.h1 
             className={styles.heroTitle}
             initial={{ opacity: 0, y: 20 }}

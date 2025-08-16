@@ -70,8 +70,8 @@
   
   .hero {
     min-height: 90vh;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
   }
 }
 
@@ -82,8 +82,8 @@
   
   .hero {
     min-height: 85vh;
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
   }
 }
 
@@ -142,9 +142,26 @@
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
+  /* Ensure text stays on one line */
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .block { display: block; }
+
+.heroGreeting {
+  color: var(--white);
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-align: left;
+  margin-left: 3rem;
+  opacity: 0.9;
+  /* Prevent text selection on mobile */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
 
 .heroSubtitle {
   color: var(--white);
@@ -156,6 +173,19 @@
   -webkit-user-select: none;
   user-select: none;
 }
+
+/* ContainerTextFlip specific styling within hero */
+.heroSubtitle :global(.relative) {
+  display: inline-block;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.heroSubtitle :global(.relative) > div {
+  text-align: center;
+}
+
+
 
 .cta { }
 
@@ -204,17 +234,35 @@
   }
   
   .heroInner {
-    padding: 0 1rem;
+    padding: 0 1.5rem;
+  }
+  
+  .heroGreeting {
+    font-size: clamp(1.25rem, 4vw, 1.5rem);
+    margin-bottom: 0.75rem;
+    text-align: left;
+    margin-left: 1.5rem;
+    font-weight: 700;
   }
   
   .heroTitle {
-    font-size: clamp(2rem, 8vw, 4rem);
-    margin-bottom: 1rem;
+    font-size: clamp(1.75rem, 6vw, 3.5rem);
+    margin-bottom: 1.5rem;
+    white-space: nowrap;
+    overflow: hidden;
   }
   
   .heroSubtitle {
     font-size: clamp(1rem, 4vw, 1.25rem);
-    margin-bottom: 1.2rem;
+    margin-bottom: 2rem;
+  }
+  
+  /* ContainerTextFlip mobile optimization */
+  .heroSubtitle :global(.relative) {
+    min-width: 280px;
+    max-width: 90vw;
+    margin: 0 auto;
+    display: block;
   }
   
   .ctaButton {
@@ -239,21 +287,39 @@
 @media (max-width: 480px) {
   .hero {
     min-height: 85vh;
-    padding: 0 0.5rem;
+    padding: 0 1rem;
   }
   
   .heroInner {
-    padding: 0 0.5rem;
+    padding: 0 1.5rem;
+  }
+  
+  .heroGreeting {
+    font-size: clamp(1.125rem, 4.5vw, 1.25rem);
+    margin-bottom: 1rem;
+    text-align: left;
+    margin-left: 1rem;
+    font-weight: 700;
   }
   
   .heroTitle {
-    font-size: clamp(1.75rem, 10vw, 3rem);
-    margin-bottom: 0.75rem;
+    font-size: clamp(1.5rem, 8vw, 2.5rem);
+    margin-bottom: 1.5rem;
+    white-space: nowrap;
+    overflow: hidden;
   }
   
   .heroSubtitle {
     font-size: clamp(0.875rem, 4.5vw, 1.125rem);
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  /* ContainerTextFlip small mobile optimization */
+  .heroSubtitle :global(.relative) {
+    min-width: 240px;
+    max-width: 95vw;
+    margin: 0 auto;
+    display: block;
   }
   
   .ctaButton {
