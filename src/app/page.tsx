@@ -1,6 +1,14 @@
 'use client';
 
+import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import Hero from '@/components/Hero/Hero';
+
+// Dynamically import FloatingChatButton to avoid SSR issues with the chat widget
+const FloatingChatButton = dynamic(
+  () => import('@/components/FloatingChatButton'),
+  { ssr: false }
+);
 import PortfolioCard from '@/components/PortfolioCard/PortfolioCard';
 import styles from './page.module.css';
 import { motion } from 'framer-motion';
@@ -148,6 +156,7 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
+      <FloatingChatButton />
     </main>
   );
 }

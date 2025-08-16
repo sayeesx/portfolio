@@ -1,9 +1,9 @@
-'use client';
+"use client"
 
-import { motion } from 'framer-motion';
-import styles from './Hero.module.css';
-import ContainerTextFlip from "../Text Flip/container-text-flip";
-import CVDownloadButton from '../ui/Button';
+import { motion } from "framer-motion"
+import styles from "./Hero.module.css"
+import CVDownloadButton from "../ui/Button"
+import TextFlipCube from "../TextFlip/TextFlipCube"
 
 const Hero = () => {
   return (
@@ -24,7 +24,7 @@ const Hero = () => {
           >
             Hey, I am
           </motion.div>
-          <motion.h1 
+          <motion.h1
             className={styles.heroTitle}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -32,7 +32,17 @@ const Hero = () => {
           >
             Muhammed Sayees
           </motion.h1>
-          <ContainerTextFlip className={styles.heroSubtitle} words={["Student", "AI Engineer", "Software Developer", "ML engineer"]} />
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <TextFlipCube
+              words={["Student", "AI Engineer", "Software Developer", "ML Engineer"]}
+              className={styles.heroSubtitle}
+              duration={2500}
+            />
+          </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -40,13 +50,10 @@ const Hero = () => {
           >
             <CVDownloadButton />
           </motion.div>
-
         </div>
       </div>
-
-
     </section>
-  );
-};
+  )
+}
 
-export default Hero;
+export default Hero

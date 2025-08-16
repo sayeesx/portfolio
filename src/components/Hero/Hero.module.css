@@ -1,6 +1,6 @@
 /* Gradient Text Effect */
 .gradientText {
-  background: linear-gradient(90deg, #7A4CE0 0%, #2F6FED 100%);
+  background: linear-gradient(90deg, #7a4ce0 0%, #2f6fed 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -52,7 +52,7 @@
 }
 
 .hero::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -67,7 +67,7 @@
   .hero::after {
     height: 15vh;
   }
-  
+
   .hero {
     min-height: 90vh;
     padding-top: 2rem;
@@ -79,7 +79,7 @@
   .hero::after {
     height: 12vh;
   }
-  
+
   .hero {
     min-height: 85vh;
     padding-top: 1.5rem;
@@ -108,11 +108,28 @@
   will-change: transform;
 }
 
-.blobPurple { top: 25%; left: -5rem; background: rgba(122, 76, 224, 0.15); }
-.blobBlue { top: 50%; right: -5rem; background: rgba(47, 111, 237, 0.15); }
-.blobPink { bottom: -5rem; left: 50%; transform: translateX(-50%); background: rgba(244, 114, 182, 0.12); }
-.delay2000 { animation-delay: 2s; }
-.delay4000 { animation-delay: 4s; }
+.blobPurple {
+  top: 25%;
+  left: -5rem;
+  background: rgba(122, 76, 224, 0.15);
+}
+.blobBlue {
+  top: 50%;
+  right: -5rem;
+  background: rgba(47, 111, 237, 0.15);
+}
+.blobPink {
+  bottom: -5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(244, 114, 182, 0.12);
+}
+.delay2000 {
+  animation-delay: 2s;
+}
+.delay4000 {
+  animation-delay: 4s;
+}
 
 .heroContainer {
   width: 100%;
@@ -147,7 +164,9 @@
   overflow: hidden;
 }
 
-.block { display: block; }
+.block {
+  display: block;
+}
 
 .heroGreeting {
   color: var(--white);
@@ -163,6 +182,7 @@
   user-select: none;
 }
 
+/* Updated heroSubtitle styles for 3D cube text animation */
 .heroSubtitle {
   color: var(--white);
   font-size: clamp(1.125rem, 2.5vw, 1.5rem);
@@ -172,22 +192,22 @@
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
+  /* Added styles for cube container */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 3rem;
 }
 
-/* ContainerTextFlip specific styling within hero */
-.heroSubtitle :global(.relative) {
-  display: inline-block;
+/* Removed old TextFlip specific styling and added cube-specific styles */
+.heroSubtitle .cube-container {
+  width: 100%;
+  max-width: 300px;
   margin: 0 auto;
-  text-align: center;
 }
 
-.heroSubtitle :global(.relative) > div {
-  text-align: center;
+.cta {
 }
-
-
-
-.cta { }
 
 .ctaButton {
   display: inline-flex;
@@ -209,34 +229,34 @@
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0.2);
 }
 
-.ctaButton:hover { 
-  transform: scale(1.05); 
-  background: rgba(255,255,255,0.9); 
+.ctaButton:hover {
+  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .ctaButton:active {
   transform: scale(0.95);
 }
 
-.ctaIcon { margin-left: 0.5rem; }
-
-
+.ctaIcon {
+  margin-left: 0.5rem;
+}
 
 /* Responsive Typography */
 @media (max-width: 768px) {
   .gradientText {
     font-size: 2.5rem;
   }
-  
+
   .hero {
     min-height: 90vh;
     padding: 0 1rem;
   }
-  
+
   .heroInner {
     padding: 0 1.5rem;
   }
-  
+
   .heroGreeting {
     font-size: clamp(1.25rem, 4vw, 1.5rem);
     margin-bottom: 0.75rem;
@@ -244,44 +264,44 @@
     margin-left: 1.5rem;
     font-weight: 700;
   }
-  
+
   .heroTitle {
     font-size: clamp(1.75rem, 6vw, 3.5rem);
     margin-bottom: 1.5rem;
     white-space: nowrap;
     overflow: hidden;
   }
-  
+
   .heroSubtitle {
     font-size: clamp(1rem, 4vw, 1.25rem);
     margin-bottom: 2rem;
+    /* Updated min-height for mobile */
+    min-height: 2.5rem;
   }
-  
-  /* ContainerTextFlip mobile optimization */
-  .heroSubtitle :global(.relative) {
-    min-width: 280px;
-    max-width: 90vw;
-    margin: 0 auto;
-    display: block;
-  }
-  
-  .ctaButton {
-    padding: 0.875rem 1.75rem;
-    font-size: 1rem;
-  }
-  
 
-  
+  /* Updated cube container for mobile */
+  .heroSubtitle .cube-container {
+    max-width: 280px;
+  }
+
   /* Optimize blobs for mobile */
   .blob {
     width: 16rem;
     height: 16rem;
     filter: blur(40px);
   }
-  
-  .blobPurple { top: 20%; left: -3rem; }
-  .blobBlue { top: 60%; right: -3rem; }
-  .blobPink { bottom: -3rem; }
+
+  .blobPurple {
+    top: 20%;
+    left: -3rem;
+  }
+  .blobBlue {
+    top: 60%;
+    right: -3rem;
+  }
+  .blobPink {
+    bottom: -3rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -289,11 +309,11 @@
     min-height: 85vh;
     padding: 0 1rem;
   }
-  
+
   .heroInner {
     padding: 0 1.5rem;
   }
-  
+
   .heroGreeting {
     font-size: clamp(1.125rem, 4.5vw, 1.25rem);
     margin-bottom: 1rem;
@@ -301,32 +321,26 @@
     margin-left: 1rem;
     font-weight: 700;
   }
-  
+
   .heroTitle {
     font-size: clamp(1.5rem, 8vw, 2.5rem);
     margin-bottom: 1.5rem;
     white-space: nowrap;
     overflow: hidden;
   }
-  
+
   .heroSubtitle {
     font-size: clamp(0.875rem, 4.5vw, 1.125rem);
     margin-bottom: 2rem;
+    /* Updated min-height for small mobile */
+    min-height: 2rem;
   }
-  
-  /* ContainerTextFlip small mobile optimization */
-  .heroSubtitle :global(.relative) {
-    min-width: 240px;
-    max-width: 95vw;
-    margin: 0 auto;
-    display: block;
+
+  /* Updated cube container for small mobile */
+  .heroSubtitle .cube-container {
+    max-width: 240px;
   }
-  
-  .ctaButton {
-    padding: 0.75rem 1.5rem;
-    font-size: 0.875rem;
-  }
-  
+
   /* Further optimize blobs for small screens */
   .blob {
     width: 12rem;
@@ -341,7 +355,7 @@
     /* Prevent rubber band scrolling issues on iOS */
     -webkit-overflow-scrolling: touch;
   }
-  
+
   .ctaButton {
     /* Better touch feedback on iOS */
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0.3);
