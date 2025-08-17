@@ -2,18 +2,11 @@
 
 import { motion } from "framer-motion"
 import styles from "./Hero.module.css"
-import CVDownloadButton from "../ui/Button"
-import TextFlipCube from "../TextFlip/TextFlipCube"
+import CVDownloadButton from "../Buttons/Button"
 
 const Hero = () => {
   return (
     <section id="hero" className={styles.hero}>
-      <div className={styles.heroBackground}>
-        <div className={`${styles.blob} ${styles.blobPurple}`} />
-        <div className={`${styles.blob} ${styles.blobBlue} ${styles.delay2000}`} />
-        <div className={`${styles.blob} ${styles.blobPink} ${styles.delay4000}`} />
-      </div>
-
       <div className={styles.heroContainer}>
         <div className={styles.heroInner}>
           <motion.div
@@ -33,15 +26,12 @@ const Hero = () => {
             Muhammed Sayees
           </motion.h1>
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            className={styles.shineBanner}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.6, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
           >
-            <TextFlipCube
-              words={["Student", "AI Engineer", "Software Developer", "ML Engineer"]}
-              className={styles.heroSubtitle}
-              duration={2500}
-            />
+            <a href="#" className={styles.btnShine}>AI Engineer</a>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}

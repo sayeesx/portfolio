@@ -120,8 +120,16 @@
 body {
   font-family: var(--body-font);
   color: var(--text-primary);
-  background: #0b0b0b;
+  background: #000000;
   line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  
+  /* Prevent iOS text size adjustment */
+  -webkit-text-size-adjust: 100%;
+  
+  /* Better touch handling */
+  touch-action: manipulation;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -545,33 +553,75 @@ main {
   }
 }
 
-/* Utility Classes */
-.fade-in {
-  animation: var(--animation-fade-in);
+/* Chat portal/button/window animations & shadows */
+@keyframes chatPop {
+  from { transform: translateY(6px) scale(.98); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+@keyframes chatSlideUp {
+  from { transform: translateY(12px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
-.slide-up {
-  animation: var(--animation-slide-up);
+.floating-chat-portal { pointer-events: auto !important; }
+
+/* Button */
+.floating-chat-btn {
+  transition: transform 180ms cubic-bezier(.2,.9,.2,1), box-shadow 180ms ease, opacity 160ms ease;
+  transform-origin: center;
+  box-shadow: 0 10px 30px rgba(4,4,6,0.55), 0 4px 10px rgba(0,0,0,0.3);
+}
+.floating-chat-btn:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 18px 50px rgba(4,4,6,0.6); }
+.floating-chat-btn:active { transform: scale(.98); }
+
+/* Glass base */
+.glass {
+  background: rgba(10, 10, 12, 0.45);
+  border: 1px solid rgba(122, 76, 224, 0.12);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 20px 60px rgba(3,4,10,0.6);
+  transition: transform 200ms ease, opacity 200ms ease;
 }
 
-.delay-100 {
-  animation-delay: 0.1s;
+/* Window open/close */
+.floating-chat-window.chat-open { animation: chatSlideUp 240ms cubic-bezier(.2,.9,.3,1) both; }
+.floating-chat-window.chat-closed { opacity: 0; transform: translateY(6px); }
+
+/* Message bubbles */
+.chat-bubble {
+  padding: 10px 12px;
+  border-radius: 12px;
+  max-width: 80%;
+  font-size: 14px;
+  line-height: 1.4;
+  animation: chatPop 220ms cubic-bezier(.2,.9,.2,1);
+  box-shadow: 0 6px 22px rgba(3,4,10,0.45);
+}
+.chat-bubble.user {
+  background: linear-gradient(135deg, rgba(122,76,224,0.14), rgba(45,163,255,0.06));
+  color: #fff;
+  border: 1px solid rgba(122,76,224,0.08);
+}
+.chat-bubble.assistant {
+  background: rgba(255,255,255,0.03);
+  color: rgba(255,255,255,0.95);
+  border: 1px solid rgba(255,255,255,0.03);
 }
 
-.delay-200 {
-  animation-delay: 0.2s;
+/* scrollbar for messages */
+.floating-chat-window .chat-messages::-webkit-scrollbar { width: 8px; }
+.floating-chat-window .chat-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.06); border-radius: 8px; }
+
+/* small responsive */
+@media (max-width: 420px) {
+  .floating-chat-window { right: 12px !important; left: 12px !important; width: auto !important; bottom: 100px !important; }
+  .floating-chat-portal { right: 16px !important; bottom: 16px !important; }
 }
 
-.delay-300 {
-  animation-delay: 0.3s;
-}
-
-.delay-400 {
-  animation-delay: 0.4s;
-}
-
-.delay-500 {
-  animation-delay: 0.5s;
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .floating-chat-window, .floating-chat-btn, .chat-bubble { transition: none !important; animation: none !important; }
 }
 
 /* Responsive Typography */
@@ -837,12 +887,174 @@ section {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* Utility Classes */
-.text-center {
-  text-align: center;
+/* Add this at the top of your globals.css file */
+body {
+  background-color: black;
+  position: relative;
+  min-height: 100vh;
 }
 
-.mt-1 { margin-top: 1rem; }
-.mt-2 { margin-top: 2rem; }
-.mb-1 { margin-bottom: 1rem; }
-.mb-2 { margin-bottom: 2rem; }
+/* Add these new utility classes */
+.fixed {
+  position: fixed;
+}
+
+.inset-0 {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.z-0 {
+  z-index: 0;
+}
+
+.z-10 {
+  z-index: 10;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.relative {
+  position: relative;
+}
+
+.bg-black {
+  background-color: black;
+}
+
+:root {
+  --heading-font: 'Inter', -apple-system, sans-serif;
+  --white: #ffffff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background-color: #0b0b0b;
+  color: var(--white);
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+/* Debug / safety overrides: disable accidental vignette or mask overlays so grid shows through.
+   Remove these once you've confirmed and fixed the originating rule/component. */
+.gradient-shape,
+.vignette,
+.radial-mask {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+/* Debug / permanent safety: remove accidental vignette/masks and keep grid visible */
+.gradient-shape,
+.vignette,
+.radial-mask,
+.mask-overlay,
+.grid-vignette {
+  display: none !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+}
+
+/* Disable inline/backdrop mask effects that create blur */
+*[style*="mask-image"],
+*[style*="backdrop-filter"],
+*[style*="-webkit-mask-image"] {
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+  backdrop-filter: none !important;
+  filter: none !important;
+}
+
+/* Ensure header/navbar is transparent and above the grid */
+header,
+.navbar,
+.site-nav,
+.header-wrapper {
+  background: transparent !important;
+  z-index: 50 !important;
+  position: relative !important;
+}
+
+/* Floating chat glass styles */
+.floating-chat-portal { pointer-events: auto !important; }
+
+/* Chat portal/button/window animations & shadows */
+@keyframes chatPop {
+  from { transform: translateY(6px) scale(.98); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+@keyframes chatSlideUp {
+  from { transform: translateY(12px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.floating-chat-portal { pointer-events: auto !important; }
+
+/* Button */
+.floating-chat-btn {
+  transition: transform 180ms cubic-bezier(.2,.9,.2,1), box-shadow 180ms ease, opacity 160ms ease;
+  transform-origin: center;
+  box-shadow: 0 10px 30px rgba(4,4,6,0.55), 0 4px 10px rgba(0,0,0,0.3);
+}
+.floating-chat-btn:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 18px 50px rgba(4,4,6,0.6); }
+.floating-chat-btn:active { transform: scale(.98); }
+
+/* Glass base */
+.glass {
+  background: rgba(10, 10, 12, 0.45);
+  border: 1px solid rgba(122, 76, 224, 0.12);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 20px 60px rgba(3,4,10,0.6);
+  transition: transform 200ms ease, opacity 200ms ease;
+}
+
+/* Window open/close */
+.floating-chat-window.chat-open { animation: chatSlideUp 240ms cubic-bezier(.2,.9,.3,1) both; }
+.floating-chat-window.chat-closed { opacity: 0; transform: translateY(6px); }
+
+/* Message bubbles */
+.chat-bubble {
+  padding: 10px 12px;
+  border-radius: 12px;
+  max-width: 80%;
+  font-size: 14px;
+  line-height: 1.4;
+  animation: chatPop 220ms cubic-bezier(.2,.9,.2,1);
+  box-shadow: 0 6px 22px rgba(3,4,10,0.45);
+}
+.chat-bubble.user {
+  background: linear-gradient(135deg, rgba(122,76,224,0.14), rgba(45,163,255,0.06));
+  color: #fff;
+  border: 1px solid rgba(122,76,224,0.08);
+}
+.chat-bubble.assistant {
+  background: rgba(255,255,255,0.03);
+  color: rgba(255,255,255,0.95);
+  border: 1px solid rgba(255,255,255,0.03);
+}
+
+/* scrollbar for messages */
+.floating-chat-window .chat-messages::-webkit-scrollbar { width: 8px; }
+.floating-chat-window .chat-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.06); border-radius: 8px; }
+
+/* small responsive */
+@media (max-width: 420px) {
+  .floating-chat-window { right: 12px !important; left: 12px !important; width: auto !important; bottom: 100px !important; }
+  .floating-chat-portal { right: 16px !important; bottom: 16px !important; }
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .floating-chat-window, .floating-chat-btn, .chat-bubble { transition: none !important; animation: none !important; }
+}

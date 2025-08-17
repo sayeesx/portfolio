@@ -1,10 +1,10 @@
 /* Section styles */
 .section {
-  padding: var(--section-padding-sm);
   position: relative;
-  font-family: var(--body-font);
-  /* Natural document flow for smoother scroll */
-  /* Background is now on body for seamless flow */
+  z-index: 1;
+  padding: var(--section-padding-sm);
+  backdrop-filter: blur(0px);
+  background: transparent;
 }
 
 /* Remove section padding for about section to blend with hero */
@@ -22,6 +22,8 @@
   text-align: center;
   margin-bottom: 4rem;
   padding: 0 1rem;
+  position: relative;
+  z-index: 2;
 }
 
 .sectionTitle {
@@ -53,6 +55,8 @@
   margin: 0 auto;
   text-align: center;
   padding-top: 8rem;
+  position: relative;
+  z-index: 2;
 }
 
 .aboutText {
@@ -123,6 +127,8 @@
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 2rem;
   padding: 0 1rem;
+  position: relative;
+  z-index: 2;
 }
 
 .viewMore {
@@ -168,6 +174,8 @@
 .contactContent {
   max-width: 600px;
   margin: 0 auto;
+  position: relative;
+  z-index: 2;
 }
 
 .contactContent p {
@@ -292,67 +300,9 @@
   }
 }
 
-.footer a {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.footer img {
-  flex-shrink: 0;
-}
-
-/* Enable hover only on non-touch devices */
-@media (hover: hover) and (pointer: fine) {
-  a.primary:hover {
-    background: var(--button-primary-hover);
-    border-color: transparent;
-  }
-
-  a.secondary:hover {
-    background: var(--button-secondary-hover);
-    border-color: transparent;
-  }
-
-  .footer a:hover {
-    text-decoration: underline;
-    text-underline-offset: 4px;
-  }
-}
-
-@media (max-width: 600px) {
-  .page {
-    padding: 32px;
-    padding-bottom: 80px;
-  }
-
-  .main {
-    align-items: center;
-  }
-
-  .main ol {
-    text-align: center;
-  }
-
-  .ctas {
-    flex-direction: column;
-  }
-
-  .ctas a {
-    font-size: 14px;
-    height: 40px;
-    padding: 0 16px;
-  }
-
-  a.secondary {
-    min-width: auto;
-  }
-
-  .footer {
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-  }
+.main {
+  min-height: 100vh;
+  width: 100%;
 }
 
 @media (prefers-color-scheme: dark) {

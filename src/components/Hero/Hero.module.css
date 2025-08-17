@@ -1,12 +1,59 @@
-/* Gradient Text Effect */
+/* Remove the gradient divider */
+.hero::after {
+  display: none; /* Remove the divider completely */
+}
+
+/* Update hero layout */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: visible; /* Change from hidden to visible */
+  width: 100%;
+  box-sizing: border-box;
+  padding-top: 2rem;
+  background-color: transparent;
+  margin-bottom: 0; /* Ensure no margin at bottom */
+  border-bottom: none; /* Ensure no border */
+}
+
+/* Remove blob animations and related styles */
+.blob,
+.blobPurple,
+.blobBlue,
+.blobPink,
+.animate-blob,
+.animation-delay-2000,
+.animation-delay-4000 {
+  display: none;
+}
+
+/* Remove gradient text effect */
 .gradientText {
-  background: linear-gradient(90deg, #7a4ce0 0%, #2f6fed 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: block;
-  line-height: 1;
-  margin: 0.1em 0;
+  display: none;
+}
+
+/* Update hero title to use solid color instead of gradient */
+.heroTitle {
+  font-family: var(--heading-font);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+  margin-bottom: 2rem;
+  font-size: clamp(2.5rem, 7vw, 8rem);
+  /* Prevent text selection on mobile */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /* Ensure text stays on one line */
+  white-space: nowrap;
+  overflow: hidden;
+  /* Chat widget gradient theme + shimmer */
+  background: none;
+  -webkit-text-fill-color: #ffffff;
+  color: #ffffff;
+  animation: none;
 }
 
 /* Blob Animation */
@@ -45,10 +92,10 @@
   display: flex;
   align-items: center;
   overflow: hidden;
-  /* Prevent layout shifts */
   width: 100%;
   box-sizing: border-box;
   padding-top: 2rem;
+  background-color: transparent;
 }
 
 .hero::after {
@@ -87,12 +134,19 @@
   }
 }
 
-.heroBackground {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  /* Prevent background from causing layout issues */
-  pointer-events: none;
+.heroContainer {
+  width: 100%;
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+.heroInner {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  text-align: center;
+  box-sizing: border-box;
 }
 
 .blob {
@@ -131,23 +185,6 @@
   animation-delay: 4s;
 }
 
-.heroContainer {
-  width: 100%;
-  position: relative;
-  z-index: 2;
-  /* Prevent layout shifts */
-  box-sizing: border-box;
-}
-
-.heroInner {
-  max-width: 72rem; /* 1152px */
-  margin: 0 auto;
-  padding: 0 1.5rem;
-  text-align: center;
-  /* Prevent layout shifts */
-  box-sizing: border-box;
-}
-
 .heroTitle {
   font-family: var(--heading-font);
   font-weight: 800;
@@ -162,6 +199,20 @@
   /* Ensure text stays on one line */
   white-space: nowrap;
   overflow: hidden;
+  /* Chat widget gradient theme + shimmer */
+  background: none;
+  -webkit-text-fill-color: #ffffff;
+  color: #ffffff;
+  animation: none;
+}
+
+@keyframes heroTitleShimmer {
+  0% {
+    background-position: 0 0, -50% 0;
+  }
+  100% {
+    background-position: 0 0, 150% 0;
+  }
 }
 
 .block {
@@ -182,64 +233,36 @@
   user-select: none;
 }
 
-/* Updated heroSubtitle styles for 3D cube text animation */
-.heroSubtitle {
-  color: var(--white);
-  font-size: clamp(1.125rem, 2.5vw, 1.5rem);
-  max-width: 42rem;
-  margin: 0 auto 3rem auto;
-  /* Prevent text selection on mobile */
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  user-select: none;
-  /* Added styles for cube container */
+/* Shiny text banner (adapted from styled-components snippet) */
+.shineBanner {
   display: flex;
   justify-content: center;
-  align-items: center;
-  min-height: 3rem;
+  margin: 0 auto 1.25rem;
 }
 
-/* Removed old TextFlip specific styling and added cube-specific styles */
-.heroSubtitle .cube-container {
-  width: 100%;
-  max-width: 300px;
-  margin: 0 auto;
-}
-
-.cta {
-}
-
-.ctaButton {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 1rem 2rem;
-  border-radius: 9999px;
-  background: var(--white);
-  color: var(--black);
-  font-weight: 800;
-  font-size: 1.125rem;
-  transition: transform 0.3s ease, background 0.3s ease;
+.btnShine {
+  padding: 12px 48px;
+  color: #fff;
+  background: linear-gradient(to right, #9f9f9f 0, #fff 10%, #868686 20%);
+  background-position: 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 3s infinite linear;
+  animation-fill-mode: forwards;
+  -webkit-text-size-adjust: none;
+  font-weight: 600;
+  font-size: 16px;
   text-decoration: none;
-  /* Prevent text selection on mobile */
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  user-select: none;
-  /* Better touch feedback */
-  -webkit-tap-highlight-color: rgba(255, 255, 255, 0.2);
+  white-space: nowrap;
+  font-family: "Poppins", sans-serif;
+  will-change: background-position;
 }
 
-.ctaButton:hover {
-  transform: scale(1.05);
-  background: rgba(255, 255, 255, 0.9);
-}
-
-.ctaButton:active {
-  transform: scale(0.95);
-}
-
-.ctaIcon {
-  margin-left: 0.5rem;
+@keyframes shine {
+  0% { background-position: 0; }
+  60% { background-position: 180px; }
+  100% { background-position: 180px; }
 }
 
 /* Responsive Typography */
@@ -266,22 +289,10 @@
   }
 
   .heroTitle {
-    font-size: clamp(1.75rem, 6vw, 3.5rem);
+    font-size: clamp(2.25rem, 9vw, 4rem);
     margin-bottom: 1.5rem;
     white-space: nowrap;
     overflow: hidden;
-  }
-
-  .heroSubtitle {
-    font-size: clamp(1rem, 4vw, 1.25rem);
-    margin-bottom: 2rem;
-    /* Updated min-height for mobile */
-    min-height: 2.5rem;
-  }
-
-  /* Updated cube container for mobile */
-  .heroSubtitle .cube-container {
-    max-width: 280px;
   }
 
   /* Optimize blobs for mobile */
@@ -327,18 +338,6 @@
     margin-bottom: 1.5rem;
     white-space: nowrap;
     overflow: hidden;
-  }
-
-  .heroSubtitle {
-    font-size: clamp(0.875rem, 4.5vw, 1.125rem);
-    margin-bottom: 2rem;
-    /* Updated min-height for small mobile */
-    min-height: 2rem;
-  }
-
-  /* Updated cube container for small mobile */
-  .heroSubtitle .cube-container {
-    max-width: 240px;
   }
 
   /* Further optimize blobs for small screens */

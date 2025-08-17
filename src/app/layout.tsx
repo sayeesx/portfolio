@@ -3,6 +3,7 @@ import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar/Navbar";
 import Footer from "@/components/Footer/Footer";
+import { GridPattern } from '@/components/grid-pattern';
 
 // Load fonts with modern font-display: swap for better performance
 const inter = Inter({
@@ -74,11 +75,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} scroll-smooth`}>
       <body>
-        <Navbar />
-        <main className="relative z-10">
-          {children}
-        </main>
-        <Footer />
+        {/* Ensure grid is the single background source and scrolls with content */}
+        <GridPattern>
+          <Navbar />
+          <main className="relative z-10">
+            {children}
+          </main>
+          <Footer />
+        </GridPattern>
       </body>
     </html>
   );

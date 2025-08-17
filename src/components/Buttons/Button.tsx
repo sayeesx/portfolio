@@ -19,20 +19,19 @@ const CVDownloadButton = () => {
         link.href = "/MUHAMMED_SAYEES_CV.pdf"
         link.download = "MUHAMMED_SAYEES_CV.pdf"
         link.style.display = "none"
-        
+
         // Append to body
         document.body.appendChild(link)
-        
+
         // Trigger download
         link.click()
-        
+
         // Remove from DOM safely
         if (link.parentNode) {
           link.parentNode.removeChild(link)
         }
-        
       } catch (error) {
-        console.error('Download error:', error)
+        console.error("Download error:", error)
       } finally {
         setIsDownloading(false)
       }
@@ -63,7 +62,12 @@ const CVDownloadButton = () => {
             </svg>
             <div className="square" />
           </span>
-          <p className="title">Download My CV</p>
+
+          {/* Updated: apply shining text animation to the "Download My CV" label */}
+          <p className="title">
+            <span className="btn-shine">Download My CV</span>
+          </p>
+
           <p className="title" onClick={handleOpen} style={{ cursor: "pointer" }}>
             Success
           </p>
@@ -86,15 +90,20 @@ const StyledWrapper = styled.div`
 
   .label {
     background-color: transparent;
-    border: 2px solid rgb(91, 91, 240);
+    border: 2px solid rgba(122, 162, 255, 0.45); /* chat widget accent */
     display: flex;
     align-items: center;
-    border-radius: 50px;
+    border-radius: 50px; 
     width: 180px;
     cursor: pointer;
     transition: all 0.4s ease;
     padding: 5px;
     position: relative;
+  }
+
+  .label:hover {
+    border-color: rgba(122, 162, 255, 0.7);
+    box-shadow: 0 10px 30px rgba(61, 91, 224, 0.25);
   }
 
   .label::before {
@@ -118,6 +127,7 @@ const StyledWrapper = styled.div`
     display: none;
   }
 
+  /* keep title positioning but remove previous shimmer background */
   .label .title {
     font-size: 12.5px;
     color: #fff;
@@ -126,6 +136,7 @@ const StyledWrapper = styled.div`
     right: 25px;
     bottom: -9px;
     text-align: center;
+    white-space: nowrap;
   }
 
   .label .title:last-child {
@@ -221,6 +232,60 @@ const StyledWrapper = styled.div`
     animation: showInstalledMessage 0.4s ease 3.5s forwards;
   }
 
+  /* NEW: shining text style (applied to inner span .btn-shine) */
+  .btn-shine {
+    display: inline-block;
+    padding: 0;
+    font-weight: 600;
+    font-size: 12.5px;
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(to right, #9f9f9f 0%, #9f9f9f 40%, #fff 50%, #9f9f9f 60%, #9f9f9f 100%);
+    background-size: 200% 100%;
+    background-position: 200% 0;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: #fff; /* fallback */
+    animation: shine 4s infinite linear;
+    -webkit-text-size-adjust: none;
+    white-space: nowrap;
+  }
+
+  @keyframes shine {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+  @-webkit-keyframes shine {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+  @-moz-keyframes shine {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+  @-o-keyframes shine {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
   @keyframes pulse {
     0% {
       scale: 0.95;
@@ -274,6 +339,15 @@ const StyledWrapper = styled.div`
       opacity: 1;
       visibility: visible;
       right: 55px;
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
     }
   }
 `

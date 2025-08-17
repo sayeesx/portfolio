@@ -19,8 +19,17 @@ export default function ChatWidget({ onClose }: ChatWidgetProps): JSX.Element {
   const [input, setInput] = useState<string>("");
   const [isSending, setIsSending] = useState<boolean>(false);
   const [isBotTyping, setIsBotTyping] = useState<boolean>(false);
-  const [, setError] = useState<string>("");
+  const [error, setError] = useState<string>("");
   const bodyRef = useRef<HTMLDivElement | null>(null);
+
+  // Use local proxy route to avoid CORS issues
+  const API_URL = "/api/chat";
+
+  interface ChatApiResponse {
+    response?: string;
+    error?: string;
+    [key: string]: unknown;
+  }
 
   // Helper to fetch with timeout
   const fetchWithTimeout = async (url: string, options: RequestInit = {}, timeout = 15000): Promise<Response> => {
@@ -52,8 +61,10 @@ export default function ChatWidget({ onClose }: ChatWidgetProps): JSX.Element {
     setInput("");
 
     try {
+      console.log("Sending to bot proxy:", API_URL, content);
+
       const res = await fetchWithTimeout(
-        "https://chatbot-4cn8.onrender.com/api/chat",
+        API_URL,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -66,14 +77,27 @@ export default function ChatWidget({ onClose }: ChatWidgetProps): JSX.Element {
         const txt = await res.text().catch(() => "");
         throw new Error(`HTTP ${res.status}: ${txt}`);
       }
-      const data = await res.json();
+
+      let data: ChatApiResponse | null = null;
+      try {
+        data = (await res.json()) as ChatApiResponse;
+      } catch {
+        const txt = await res.text().catch(() => "");
+        data = { response: txt || undefined };
+      }
+
+      if (data?.error) {
+        throw new Error(String(data.error));
+      }
+
       const reply = data?.response || "Sorry, I couldn't understand that.";
       setMessages((prev) => [...prev, { text: reply, sender: "bot" }]);
     } catch (e: unknown) {
-      const isAbort = e instanceof DOMException && e.name === "AbortError";
+      console.error("Chat send error:", e);
+      const isAbort = (e as any)?.name === "AbortError";
       const msg = isAbort
         ? "The server took too long to respond. Please try again later."
-        : "Unable to reach the chatbot right now. Please try again.";
+        : (e instanceof Error ? e.message : "Unable to reach the chatbot right now. Please try again.");
       setError(msg);
       setMessages((prev) => [...prev, { text: msg, sender: "bot" }]);
     } finally {
@@ -116,6 +140,10 @@ export default function ChatWidget({ onClose }: ChatWidgetProps): JSX.Element {
           </div>
         )}
       </div>
+
+      {/* show last error (if any) */}
+      {error && <div style={{ padding: 8, color: "#ffb3b3", fontSize: 12, textAlign: "center" }}>{error}</div>}
+
       <div className="chat-footer">
         <form onSubmit={onSubmit} className="chat-form">
           <input
@@ -138,6 +166,7 @@ export default function ChatWidget({ onClose }: ChatWidgetProps): JSX.Element {
           </button>
         </form>
       </div>
+
       <style jsx>{`
         .chat-card {
           width: 300px;
