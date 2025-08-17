@@ -15,7 +15,7 @@ const About = () => {
         <h2 className={styles.sectionTitle}>About Me</h2>
         <div className={styles.aboutText}>
           <p>
-            I'm a passionate web developer focused on creating responsive and user-friendly applications.
+            I&apos;m a passionate web developer focused on creating responsive and user-friendly applications.
             With expertise in modern web technologies, I bring ideas to life through clean code and
             innovative solutions.
           </p>

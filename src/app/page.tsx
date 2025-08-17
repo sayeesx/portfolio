@@ -17,18 +17,39 @@ export default function Home() {
   useEffect(() => {
     const triggerAPI = async () => {
       try {
-        const response = await fetch('https://chatbot-4cn8.onrender.com/', {
-          method: 'GET',
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: 'ping' }),
         });
-        if (!response.ok) {
-          console.log('API initialization failed');
+
+        const ct = res.headers.get('content-type') || '';
+        const text = await res.text().catch(() => '');
+
+        if (!res.ok) {
+          console.error('Upstream returned error:', res.status, text);
+          return;
         }
-      } catch (error) {
-        console.log('Error triggering API:', error);
+
+        let data: unknown;
+        if (ct.includes('application/json')) {
+          try {
+            data = JSON.parse(text);
+          } catch (err) {
+            console.warn('Failed to parse JSON, falling back to raw text:', err);
+            data = { response: text };
+          }
+        } else {
+          data = { response: text };
+        }
+
+        console.log('API response:', data);
+      } catch (err) {
+        console.error('Error triggering API:', err);
       }
     };
 
-    triggerAPI();
+    void triggerAPI();
   }, []);
 
   return (
