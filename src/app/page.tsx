@@ -6,7 +6,6 @@ import About from '@/components/About/About';
 import ChatWidget from '@/components/ChatWidget';
 import { useEffect, useState } from 'react';
 import { GridPattern } from '@/components/grid-pattern';
-import styles from './page.module.css';
 
 export default function Home() {
   const [chatOpen, setChatOpen] = useState(false);

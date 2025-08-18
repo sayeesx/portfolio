@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { JSX } from "react";
-import "./PixelCard.module.css";
+import styles from "./PixelCard.module.css";
 
 class Pixel {
   width: number;
@@ -258,8 +258,8 @@ export default function PixelCard({
     let allIdle = true;
     for (let i = 0; i < pixelsRef.current.length; i++) {
       const pixel = pixelsRef.current[i];
-      // @ts-ignore
-      pixel[fnName]();
+  // @ts-expect-error: Pixel method is dynamically called by name, type system cannot verify
+  pixel[fnName]();
       if (!pixel.isIdle) {
         allIdle = false;
       }
@@ -329,3 +329,11 @@ export default function PixelCard({
     </div>
   );
 }
+
+<PixelCard
+  className={`${styles["pixel-card"]} pixel-card-loading`}
+  variant="blue"
+  active={true}
+>
+  <></>
+</PixelCard>

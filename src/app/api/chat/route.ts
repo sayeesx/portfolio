@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+
 const EXTERNAL_API =
   process.env.NEXT_PUBLIC_CHATBOT_API ??
   "https://chatbot-4cn8.onrender.com/api/chat";
@@ -14,7 +15,6 @@ export async function POST(request: Request) {
     const bodyText = await request.text().catch(() => "");
     // Log incoming request body for debugging
     // (will appear in your dev server / Vercel function logs)
-    // eslint-disable-next-line no-console
     console.log("[proxy] incoming body:", bodyText);
 
     const apiRes = await fetch(EXTERNAL_API, {
@@ -27,7 +27,6 @@ export async function POST(request: Request) {
     clearTimeout(id);
 
     const text = await apiRes.text().catch(() => "");
-    // eslint-disable-next-line no-console
     console.log("[proxy] upstream status:", apiRes.status, "content-type:", apiRes.headers.get("content-type"), "body:", text);
 
     const ct = apiRes.headers.get("content-type") || "";
@@ -51,7 +50,6 @@ export async function POST(request: Request) {
       "name" in err &&
       (err as { name: unknown }).name === "AbortError";
 
-    // eslint-disable-next-line no-console
     console.error("[proxy] upstream error:", err);
 
     return NextResponse.json(

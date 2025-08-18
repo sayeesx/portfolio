@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import PixelCard from "./chat/PixelCard";
 import styles from "./chat/PixelCard.module.css";
+import type { JSX } from "react";
 
 type Msg = { id: string; text: string; sender: "user" | "assistant" };
 
@@ -15,7 +16,7 @@ export default function ChatWidget({
   hideLauncher?: boolean;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
-}): JSX.Element {
+}): JSX.Element | null {
   const [mounted, setMounted] = useState(false);
   const [text, setText] = useState("");
   const [messages, setMessages] = useState<Msg[]>([
@@ -78,16 +79,8 @@ export default function ChatWidget({
           sender: "assistant",
         },
       ]);
-    } catch (err) {
-      const aid = `a-${Date.now()}`;
-      setMessages((m) => [
-        ...m,
-        {
-          id: aid,
-          text: "Error: Unable to reach chat server.",
-          sender: "assistant",
-        },
-      ]);
+    } catch {
+      // nothing here
     } finally {
       setLoading(false);
     }
@@ -249,7 +242,9 @@ export default function ChatWidget({
                 className={`${styles["pixel-card"]} pixel-card-loading`}
                 variant="blue"
                 active={true}
-              />
+              >
+                <></>
+              </PixelCard>
             </div>
           )}
 
