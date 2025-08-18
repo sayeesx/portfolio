@@ -185,6 +185,30 @@
   margin-bottom: 2rem;
 }
 
+/* Floating chat button */
+.floatingChatBtn {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 2147483647;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 4px 16px rgba(61, 91, 224, 0.15);
+  border: none;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.floatingChatBtn:hover {
+  box-shadow: 0 8px 32px rgba(61, 91, 224, 0.25);
+  transform: scale(1.07);
+}
+
 /* Responsive styles */
 @media (max-width: 1024px) {
   .projectsGrid {

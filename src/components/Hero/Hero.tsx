@@ -1,45 +1,66 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { useEffect, useState } from "react"
+import SplitText from "./Hero-Animation/SplitText"
 import styles from "./Hero.module.css"
 import CVDownloadButton from "../Buttons/Button"
 
+const roles = ["Student ✦", "AI engineer ✦", "Software Developer"]
+
+const handleAnimationComplete = () => {
+  // You can add any callback logic here if needed
+}
+
 const Hero = () => {
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
   return (
     <section id="hero" className={styles.hero}>
       <div className={styles.heroContainer}>
         <div className={styles.heroInner}>
-          <motion.div
-            className={styles.heroGreeting}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          >
-            Hey, I am
-          </motion.div>
-          <motion.h1
-            className={styles.heroTitle}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          >
-            Muhammed Sayees
-          </motion.h1>
-          <motion.div
-            className={styles.shineBanner}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <a href="#" className={styles.btnShine}>AI Engineer</a>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <CVDownloadButton />
-          </motion.div>
+          {/* Fade-up animation wrapper */}
+          <div className={mounted ? styles.fadeUp : styles.invisible}>
+            <SplitText
+              text="Hey, I am"
+              className={styles.heroGreeting}
+              delay={100}
+              duration={0.6}
+              ease="power3.out"
+              splitType="chars"
+              from={{ opacity: 0, y: 40 }}
+              to={{ opacity: 1, y: 0 }}
+              threshold={0.1}
+              rootMargin="-100px"
+              textAlign="left"
+              onLetterAnimationComplete={handleAnimationComplete}
+            />
+            <SplitText
+              text="Muhammed Sayees"
+              className={`${styles.heroTitle} text-center`}
+              delay={100}
+              duration={0.6}
+              ease="power3.out"
+              splitType="chars"
+              from={{ opacity: 0, y: 40 }}
+              to={{ opacity: 1, y: 0 }}
+              threshold={0.1}
+              rootMargin="-100px"
+              textAlign="center"
+              onLetterAnimationComplete={handleAnimationComplete}
+            />
+            <div className={styles.heroSubHeading}>
+              {roles.map(role => (
+                <span key={role} className={styles.roleText}>{role}</span>
+              ))}
+            </div>
+            <div style={{ height: "2rem" }} />
+            <div className={styles.cvButton}>
+              <CVDownloadButton />
+            </div>
+          </div>
         </div>
       </div>
     </section>

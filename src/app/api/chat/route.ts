@@ -12,6 +12,11 @@ export async function POST(request: Request) {
   try {
     // forward client's body as-is (text/json)
     const bodyText = await request.text().catch(() => "");
+    // Log incoming request body for debugging
+    // (will appear in your dev server / Vercel function logs)
+    // eslint-disable-next-line no-console
+    console.log("[proxy] incoming body:", bodyText);
+
     const apiRes = await fetch(EXTERNAL_API, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -22,6 +27,9 @@ export async function POST(request: Request) {
     clearTimeout(id);
 
     const text = await apiRes.text().catch(() => "");
+    // eslint-disable-next-line no-console
+    console.log("[proxy] upstream status:", apiRes.status, "content-type:", apiRes.headers.get("content-type"), "body:", text);
+
     const ct = apiRes.headers.get("content-type") || "";
 
     if (ct.includes("application/json")) {
@@ -42,6 +50,9 @@ export async function POST(request: Request) {
       err !== null &&
       "name" in err &&
       (err as { name: unknown }).name === "AbortError";
+
+    // eslint-disable-next-line no-console
+    console.error("[proxy] upstream error:", err);
 
     return NextResponse.json(
       { error: isAbort ? "Upstream request timed out" : "Unable to reach upstream API" },

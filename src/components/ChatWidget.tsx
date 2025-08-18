@@ -1,355 +1,349 @@
 "use client";
 
-import { JSX, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import PixelCard from "./chat/PixelCard";
+import styles from "./chat/PixelCard.module.css";
 
-type Sender = "user" | "bot";
-interface Message {
-  text: string;
-  sender: Sender;
-}
+type Msg = { id: string; text: string; sender: "user" | "assistant" };
 
-interface ChatWidgetProps {
-  onClose?: () => void;
-}
-
-export default function ChatWidget({ onClose }: ChatWidgetProps): JSX.Element {
-  const [messages, setMessages] = useState<Message[]>([
-    { text: "Hi! I'm Sayees's AI assistant. How can I help you today?", sender: "bot" },
+export default function ChatWidget({
+  hideLauncher = false,
+  open,
+  onOpenChange,
+}: {
+  hideLauncher?: boolean;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+}): JSX.Element {
+  const [mounted, setMounted] = useState(false);
+  const [text, setText] = useState("");
+  const [messages, setMessages] = useState<Msg[]>([
+    { id: "m0", text: "Hi! How can I help?", sender: "assistant" },
   ]);
-  const [input, setInput] = useState<string>("");
-  const [isSending, setIsSending] = useState<boolean>(false);
-  const [isBotTyping, setIsBotTyping] = useState<boolean>(false);
-  const [error, setError] = useState<string>("");
-  const bodyRef = useRef<HTMLDivElement | null>(null);
-
-  // Use local proxy route to avoid CORS issues
-  const API_URL = "/api/chat";
-
-  interface ChatApiResponse {
-    response?: string;
-    error?: string;
-    [key: string]: unknown;
-  }
-
-  // Helper to fetch with timeout
-  const fetchWithTimeout = async (url: string, options: RequestInit = {}, timeout = 15000): Promise<Response> => {
-    const controller = new AbortController();
-    const id = setTimeout(() => controller.abort(), timeout);
-    try {
-      const res = await fetch(url, { ...options, signal: controller.signal });
-      return res;
-    } finally {
-      clearTimeout(id);
-    }
-  };
+  const [loading, setLoading] = useState(false);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const messagesRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    // Auto-scroll to bottom on new message
-    if (bodyRef.current) {
-      bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (open) {
+      setTimeout(() => textareaRef.current?.focus(), 80);
     }
-  }, [messages]);
+  }, [open]);
 
-  const onSend = async (): Promise<void> => {
-    const content = input.trim();
-    if (!content || isSending) return;
+  useEffect(() => {
+    if (messagesRef.current) {
+      messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+    }
+  }, [messages, open]);
 
-    setError("");
-    setIsSending(true);
-    setIsBotTyping(true);
-    setMessages((prev) => [...prev, { text: content, sender: "user" }]);
-    setInput("");
+  // Backend logic: send message to /api/chat and display response
+  const sendMessage = async (msgText?: string) => {
+    const content = (msgText ?? text).trim();
+    if (!content) return;
+    const id = `u-${Date.now()}`;
+    const userMsg: Msg = { id, text: content, sender: "user" };
+    setMessages((m) => [...m, userMsg]);
+    setText("");
+    setLoading(true);
 
     try {
-      console.log("Sending to bot proxy:", API_URL, content);
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: content }),
+      });
 
-      const res = await fetchWithTimeout(
-        API_URL,
+      let replyText = "Sorry, no response from server.";
+      if (res.ok) {
+        const ct = res.headers.get("content-type") || "";
+        if (ct.includes("application/json")) {
+          const data = await res.json();
+          replyText = data.response || replyText;
+        } else {
+          replyText = await res.text();
+        }
+      }
+
+      const aid = `a-${Date.now()}`;
+      setMessages((m) => [
+        ...m,
         {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: content }),
+          id: aid,
+          text: replyText,
+          sender: "assistant",
         },
-        15000
-      );
-
-      if (!res.ok) {
-        const txt = await res.text().catch(() => "");
-        throw new Error(`HTTP ${res.status}: ${txt}`);
-      }
-
-      let data: ChatApiResponse | null = null;
-      try {
-        data = (await res.json()) as ChatApiResponse;
-      } catch {
-        const txt = await res.text().catch(() => "");
-        data = { response: txt || undefined };
-      }
-
-      if (data?.error) {
-        throw new Error(String(data.error));
-      }
-
-      const reply = data?.response || "Sorry, I couldn't understand that.";
-      setMessages((prev) => [...prev, { text: reply, sender: "bot" }]);
-    } catch (e: unknown) {
-      console.error("Chat send error:", e);
-      // type-safe check instead of `as any`
-      const isAbort =
-        typeof e === "object" &&
-        e !== null &&
-        "name" in e &&
-        (e as { name: unknown }).name === "AbortError";
-
-      const msg = isAbort
-        ? "The server took too long to respond. Please try again later."
-        : (e instanceof Error ? e.message : "Unable to reach the chatbot right now. Please try again.");
-
-      setError(msg);
-      setMessages((prev) => [...prev, { text: msg, sender: "bot" }]);
+      ]);
+    } catch (err) {
+      const aid = `a-${Date.now()}`;
+      setMessages((m) => [
+        ...m,
+        {
+          id: aid,
+          text: "Error: Unable to reach chat server.",
+          sender: "assistant",
+        },
+      ]);
     } finally {
-      setIsSending(false);
-      setIsBotTyping(false);
+      setLoading(false);
     }
   };
 
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    void onSend();
+  const handleSubmit = (e?: React.FormEvent) => {
+    e?.preventDefault();
+    sendMessage();
   };
 
-  return (
-    <div className="chat-card modern">
-      <div className="chat-header">
-        <button className="close-btn" aria-label="Close" onClick={onClose} type="button">×</button>
-        <div className="title">
-          <div className="h2">Sayees Assistant</div>
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  };
+
+  if (!mounted) return null;
+
+  const portal = (
+    <>
+      {/* Floating Button */}
+      {!hideLauncher && (
+        <div
+          className="floating-chat-portal"
+          role="presentation"
+          style={{
+            position: "fixed",
+            right: 24,
+            bottom: 24,
+            zIndex: 2147483647,
+            pointerEvents: "auto",
+          }}
+        >
+          <button
+            aria-label={open ? "Close chat" : "Open chat"}
+            className="floating-chat-btn glass"
+            onClick={() => onOpenChange?.(!open)}
+            style={{
+              width: 56,
+              height: 56,
+              borderRadius: 9999,
+              display: "inline-grid",
+              placeItems: "center",
+              cursor: "pointer",
+              transform: open ? "scale(1.02)" : "scale(1)",
+            }}
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" fill="rgba(255,255,255,0.95)" />
+            </svg>
+          </button>
+        </div>
+      )}
+
+      {/* Chat window */}
+      <div
+        aria-hidden={!open}
+        className={`floating-chat-window glass ${open ? "chat-open" : "chat-closed"}`}
+        style={{
+          position: "fixed",
+          right: 24,
+          bottom: 100,
+          zIndex: 2147483647,
+          width: 360,
+          maxWidth: "calc(100vw - 48px)",
+          height: 520,
+          display: open ? "flex" : "none",
+          flexDirection: "column",
+          borderRadius: 14,
+          overflow: "hidden",
+          pointerEvents: "auto",
+          willChange: "transform, opacity",
+        }}
+      >
+        {/* Chat header (no animation behind) */}
+        <header
+          className="chat-header"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "12px 14px",
+            borderBottom: "1px solid rgba(255,255,255,0.03)",
+            position: "relative",
+            zIndex: 2,
+            background: "transparent",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <div
+              style={{
+                width: 36,
+                height: 36,
+                borderRadius: 10,
+                display: "grid",
+                placeItems: "center",
+                background: "linear-gradient(135deg, rgba(122,76,224,0.18), rgba(45,163,255,0.08))",
+                border: "1px solid rgba(122,76,224,0.12)",
+              }}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" fill="white" opacity="0.95" />
+              </svg>
+            </div>
+            <div>
+              <div style={{ fontWeight: 700, color: "rgba(255,255,255,0.96)", fontSize: 14 }}>Assistant</div>
+              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.6)" }}>Ask me about the portfolio</div>
+            </div>
+          </div>
+
+          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+            <button
+              aria-label="Minimize"
+              onClick={() => onOpenChange?.(false)}
+              style={{
+                border: "none",
+                background: "transparent",
+                color: "rgba(255,255,255,0.8)",
+                cursor: "pointer",
+                padding: 6,
+                borderRadius: 8,
+              }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+              </svg>
+            </button>
+          </div>
+        </header>
+
+        {/* Messages + input container */}
+        <div
+          style={{
+            position: "relative",
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            minHeight: 0, // allow flex child to fill
+          }}
+        >
+          {/* PixelCard animation overlay */}
+          {loading && (
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                width: "100%",
+                height: "100%",
+                zIndex: 1,
+                pointerEvents: "none",
+                overflow: "hidden",
+              }}
+            >
+              <PixelCard
+                className={`${styles["pixel-card"]} pixel-card-loading`}
+                variant="blue"
+                active={true}
+              />
+            </div>
+          )}
+
+          <div
+            className="chat-messages"
+            ref={messagesRef}
+            style={{
+              flex: 1,
+              padding: 12,
+              overflowY: "auto",
+              display: "flex",
+              flexDirection: "column",
+              gap: 10,
+              background: "linear-gradient(180deg, rgba(255,255,255,0.00), rgba(255,255,255,0.01) 100%)",
+              position: "relative",
+              zIndex: 2,
+            }}
+          >
+            {messages.map((m) => (
+              <div
+                key={m.id}
+                className={`chat-bubble ${m.sender === "user" ? "user" : "assistant"}`}
+                style={{ alignSelf: m.sender === "user" ? "flex-end" : "flex-start" }}
+              >
+                {m.text}
+              </div>
+            ))}
+          </div>
+
+          <form
+            className="chat-input"
+            onSubmit={handleSubmit}
+            style={{
+              display: "flex",
+              gap: 8,
+              padding: 12,
+              borderTop: "1px solid rgba(255,255,255,0.03)",
+              background: "transparent",
+              alignItems: "flex-end",
+              position: "relative",
+              zIndex: 2,
+            }}
+          >
+            <textarea
+              aria-label="Type a message"
+              ref={textareaRef}
+              value={text}
+              onChange={(e) => {
+                setText(e.target.value);
+                // fixed height to match send button
+                const ta = textareaRef.current;
+                if (!ta) return;
+                ta.style.height = "40px";
+              }}
+              onKeyDown={handleKeyDown}
+              placeholder="Type a message..."
+              style={{
+                flex: 1,
+                height: "40px",
+                minHeight: "40px",
+                maxHeight: "40px",
+                padding: "10px 12px",
+                borderRadius: 10,
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(255,255,255,0.03)",
+                color: "rgba(255,255,255,0.95)",
+                outline: "none",
+                resize: "none",
+                lineHeight: 1.4,
+              }}
+            />
+            <button
+              type="submit"
+              className="chat-send-btn"
+              style={{
+                minWidth: 48,
+                height: 40,
+                borderRadius: 10,
+                border: "none",
+                background: "linear-gradient(135deg,#7A4CE0,#2DA3FF)",
+                color: "#fff",
+                cursor: "pointer",
+                boxShadow: "0 14px 40px rgba(42,44,80,0.5)",
+                display: "inline-grid",
+                placeItems: "center",
+              }}
+            >
+              Send
+            </button>
+          </form>
         </div>
       </div>
-      <div className="chat-body" ref={bodyRef}>
-        {messages.map((m, idx) => (
-          <div key={idx} className={`row ${m.sender}`}>
-            {m.sender === 'bot' && (
-              <div className="avatar-msg">
-                <div className="spinner still"><div className="spinnerin" /></div>
-              </div>
-            )}
-            <div className={`message ${m.sender}`}>
-              <p>{m.text}</p>
-            </div>
-          </div>
-        ))}
-        {isBotTyping && (
-          <div className="row bot typing-row">
-            <div className="avatar-msg">
-              <div className="spinner"><div className="spinnerin" /></div>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* show last error (if any) */}
-      {error && <div style={{ padding: 8, color: "#ffb3b3", fontSize: 12, textAlign: "center" }}>{error}</div>}
-
-      <div className="chat-footer">
-        <form onSubmit={onSubmit} className="chat-form" role="search">
-          <input
-            placeholder={isSending ? "Sending..." : "Type your message"}
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            disabled={isSending}
-            aria-label="Message"
-          />
-          <button
-            type="submit"
-            className="send-btn"
-            disabled={!input.trim() || isSending}
-            aria-busy={isSending}
-            aria-label="Send"
-            title="Send message"
-          >
-            {isSending ? (
-              <span className="btn-loader" aria-hidden>
-                <div className="btn-load1" />
-                <div className="btn-load2" />
-                <div className="btn-load3" />
-              </span>
-            ) : (
-              "Send"
-            )}
-          </button>
-        </form>
-      </div>
-
-      <style jsx>{`
-        .chat-card {
-          width: 300px;
-          background: #0b1221; /* deep slate backdrop for contrast */
-          border-radius: 14px;
-          box-shadow: 0 20px 40px rgba(0,0,0,0.35);
-          overflow: hidden;
-          display: flex;
-          flex-direction: column;
-          max-height: 80vh; /* increased desktop height */
-          border: 1px solid rgba(61,91,224,0.35);
-          backdrop-filter: blur(4px);
-        }
-        .chat-header {
-          position: relative;
-          padding: 14px 14px 14px 38px; /* leave space for close btn; taller header */
-          background: linear-gradient(90deg, #1f37c7, #3d5be0 60%, #7aa2ff);
-          color: #fff;
-          display: flex;
-          align-items: center;
-          gap: 10px;
-        }
-        .close-btn {
-          position: absolute;
-          left: 10px;
-          top: 50%;
-          transform: translateY(-50%);
-          width: 24px;
-          height: 24px;
-          border-radius: 6px;
-          background: transparent;
-          color: #ffffff;
-          border: 1px solid rgba(255,255,255,0.35);
-          line-height: 20px;
-          font-size: 16px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          transition: background .2s, border-color .2s, transform .12s;
-        }
-        .close-btn:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.6); }
-        .close-btn:active { transform: translateY(-50%) scale(0.98); }
-        .avatar { font-size: 18px; display: flex; align-items: center; justify-content: center; }
-        .title .h2 { font-size: 16px; font-weight: 700; line-height: 1.2; letter-spacing: .2px; }
-        .title .sub { font-size: 12px; opacity: 0.95; }
-        .chat-body {
-          padding: 14px;
-          overflow-y: auto;
-          flex: 1;
-          background: radial-gradient(1200px 400px at 100% 0%, rgba(61,91,224,0.12), transparent 50%), #0b1221;
-        }
-        .row { display: flex; margin-bottom: 10px; gap: 8px; }
-        .row.user { justify-content: flex-end; }
-        .row.bot { justify-content: flex-start; align-items: flex-start; }
-        .row.bot { justify-content: flex-start; }
-        .message { max-width: 82%; padding: 10px 12px; border-radius: 12px; animation: chatAnimation 0.25s ease both; border: 1px solid transparent; }
-        .message.user { background: #1d4ed8; color: #fff; border-bottom-right-radius: 4px; border-color: rgba(255,255,255,0.08); }
-        .message.bot { background: #0e172a; color: #e6e9ff; border-top-left-radius: 4px; border-color: rgba(61,91,224,0.35); }
-        .message p { margin: 0; font-size: 14px; line-height: 1.5; }
-        .avatar-msg { width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; margin-top: 2px; }
-        .typing { display: inline-flex; align-items: center; gap: 8px; }
-        .typing-row { margin-bottom: 8px; }
-        /* Spinner based on user's design */
-        .spinner { position: relative; width: 1.0em; height: 1.0em; border-radius: 50%; border: 2px solid #2a2f45; box-shadow: -8px -8px 10px #6359f8, 0px -8px 10px 0px #9c32e2, 8px -8px 10px #f36896, 8px 0 10px #ff0b0b, 8px 8px 10px 0px #ff5500, 0 8px 10px 0px #ff9500, -8px 8px 10px 0px #ffb700; animation: rot55 0.8s linear infinite; }
-        .spinner.still { animation: none; /* keep border in still state */ }
-        .spinner:not(.still) { border: none; }
-        .spinner:not(.still) .spinnerin { display: none; }
-        .spinnerin { border: 2px solid #2a2f45;border-radius: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
-        /* Send button loader (3-dot brighten) */
-        .btn-loader { display: inline-flex; align-items: center; gap: 8px; transition: all .4s; }
-        .btn-loader div { background-color: rgba(255,255,255,0.9); border-radius: 50%; width: 8px; height: 8px; box-shadow: inset 2px 2px 6px rgba(0,0,0,0.4); }
-        .btn-load1 { animation: brighten 1.2s infinite; }
-        .btn-load2 { animation: brighten 1.2s infinite; animation-delay: .2s; }
-        .btn-load3 { animation: brighten 1.2s infinite; animation-delay: .4s; }
-        @keyframes brighten { 100% { background-color: rgba(255,255,255,0.6); box-shadow: none; } }
-        @keyframes rot55 { to { transform: rotate(360deg); } }
-
-        /* --- CHANGED: align send button with input and match theme --- */
-        .chat-footer { padding: 10px; background: #0b1221; border-top: 1px solid rgba(61,91,224,0.35); }
-        .chat-form {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          flex-wrap: nowrap;
-        }
-        .chat-form input[type="text"] {
-          flex: 1;
-          padding: 10px 12px;
-          height: 40px;
-          box-sizing: border-box;
-          border: 1px solid rgba(122,162,255,0.35);
-          border-radius: 10px;
-          outline: none;
-          transition: box-shadow .2s, border-color .2s, background .2s;
-          background: #0e172a;
-          color: #e6e9ff;
-          font-size: 14px;
-        }
-        .chat-form input[type="text"]::placeholder { color: rgba(230,233,255,0.55); }
-        .chat-form input[type="text"]:focus { border-color: #7aa2ff; box-shadow: 0 0 0 3px rgba(122,162,255,0.12); background: #0e172a; }
-
-        /* Send button visually matches the chat theme and sits inline with input */
-        .chat-form .send-btn {
-          height: 40px;
-          min-width: 64px;
-          padding: 0 14px;
-          border-radius: 10px;
-          border: 1px solid rgba(122,162,255,0.45);
-          background: linear-gradient(90deg, #1f37c7, #3d5be0);
-          color: #fff;
-          font-weight: 700;
-          cursor: pointer;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 14px;
-          transition: transform .12s, background .15s, box-shadow .15s, opacity .15s;
-          box-shadow: 0 6px 18px rgba(61,91,224,0.12);
-        }
-        .chat-form .send-btn:hover { transform: translateY(-1px); background: linear-gradient(90deg, #1c31b3, #2d4bd0); }
-        .chat-form .send-btn:disabled { opacity: .6; cursor: not-allowed; transform: none; box-shadow: none; }
-
-        /* keep loader dots inside button centered */
-        .chat-form .send-btn .btn-loader { gap: 6px; }
-        .chat-form .send-btn .btn-load1,
-        .chat-form .send-btn .btn-load2,
-        .chat-form .send-btn .btn-load3 { width: 6px; height: 6px; }
-
-        @keyframes chatAnimation { 0% { opacity: 0; transform: translateY(6px);} 100% { opacity: 1; transform: translateY(0);} }
-        @keyframes typing { 0%, 80%, 100% { transform: scale(.8); opacity: .6;} 40% { transform: scale(1); opacity: 1;} }
-
-        /* Desktop sizing tweaks */
-        @media (min-width: 99vh) {
-          .chat-card { height: 65vh; max-height: none; }
-          .chat-form input[type="text"] { padding: 10px 10px; font-size: 14px; }
-          .chat-form .send-btn { padding: 0 14px; font-size: 14px; }
-        }
-
-        /* Mobile optimization */
-        @media (max-width: 480px) {
-          .chat-card { width: 88vw; height: 60vh; max-height: none; border-radius: 12px; }
-          .chat-header { padding: 22px 12px 14px 34px; }
-          .close-btn { left: 8px; width: 22px; height: 22px; }
-          .avatar { font-size: 16px; }
-          .title .h2 { font-size: 13px; }
-          .title .sub { font-size: 11px; }
-          .chat-body { padding: 10px; }
-          .row { gap: 6px; }
-          .avatar-msg { width: 20px; height: 20px; }
-          .message { max-width: 86%; padding: 8px 10px; }
-          .message p { font-size: 13px; }
-          .chat-footer {
-            padding: 8px;
-          }
-          .chat-form {
-            gap: 6px;
-          }
-          .chat-form input[type="text"] {
-            padding: 10px;
-            font-size: 14px;
-          }
-          .chat-form .send-btn {
-            padding: 0 12px;
-            font-size: 14px;
-          }
-        }
-      `}</style>
-    </div>
+    </>
   );
+
+  return createPortal(portal, document.body);
 }

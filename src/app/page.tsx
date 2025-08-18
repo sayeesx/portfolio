@@ -1,19 +1,16 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import Hero from '@/components/Hero/Hero';
 import Projects from '@/components/Projects/Projects';
 import About from '@/components/About/About';
-import { useEffect } from 'react';
+import ChatWidget from '@/components/ChatWidget';
+import { useEffect, useState } from 'react';
 import { GridPattern } from '@/components/grid-pattern';
-
-// Dynamically import FloatingChatButton
-const FloatingChatButton = dynamic(
-  () => import('@/components/FloatingChatButton'),
-  { ssr: false }
-);
+import styles from './page.module.css';
 
 export default function Home() {
+  const [chatOpen, setChatOpen] = useState(false);
+
   useEffect(() => {
     const triggerAPI = async () => {
       try {
@@ -54,14 +51,14 @@ export default function Home() {
 
   return (
     <div className="bg-black min-h-screen relative">
-      {/* Use GridPattern (single source of grid background) */}
       <GridPattern>
         <main className="relative z-10">
           <Hero />
           <About />
           <Projects />
-          <FloatingChatButton />
         </main>
+        {/* Only render ChatWidget, no floating button here */}
+        <ChatWidget hideLauncher={false} open={chatOpen} onOpenChange={setChatOpen} />
       </GridPattern>
     </div>
   );
