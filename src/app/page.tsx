@@ -7,6 +7,7 @@ import { GridPattern } from "@/components/grid-pattern"
 import styled from "styled-components"
 import { useRouter } from "next/navigation"
 import { Github, ExternalLink } from "lucide-react"
+import Image from 'next/image';
 
 // Modern About Me Button (with arrow and responsive size)
 const AboutButton = () => {
@@ -479,32 +480,32 @@ const SectionDivider = styled.div`
 // Sample project data - replace with your actual projects
 const projects = [
   {
-    title: "AI Chat Assistant",
+    title: "MIZNET",
     description:
-      "A modern AI-powered chat assistant built with Next.js and OpenAI API, featuring real-time conversations and intelligent responses.",
-    technologies: ["Next.js", "TypeScript", "OpenAI", "Tailwind CSS"],
-    githubUrl: "https://github.com/yourusername/ai-chat-assistant",
-    websiteUrl: "https://your-ai-chat.vercel.app",
-    projectSlug: "ai-chat-assistant",
+      "Smart Supply Chain Automation Using AI and Blockchain.",
+    technologies: ["Python", "TensorFlow", "ML", "Blochain"],
+    githubUrl: "https://github.com/sayeesx/miznet",
+    websiteUrl: "https://miznet.vercel.app",
+    projectSlug: "MIZNET – Smart Supply Chain Automation Using AI ",
     imageUrl: "/placeholder.jpg",
   },
   {
-    title: "E-Commerce Platform",
+    title: "ML Handwriting Recognition System",
     description:
-      "A full-stack e-commerce solution with payment integration, inventory management, and modern UI/UX design.",
-    technologies: ["React", "Node.js", "MongoDB", "Stripe"],
-    githubUrl: "https://github.com/yourusername/ecommerce-platform",
-    websiteUrl: "https://your-ecommerce.vercel.app",
-    projectSlug: "ecommerce-platform",
+      "Prescription Extracter – ML With NLP & Handwriting Recognition System",
+    technologies:["Python", "NLP", "ML", "OCR"],
+    githubUrl: "https://github.com/sayeesx/Prescription-Extracter---NLP",
+    websiteUrl: "https://github.com/sayeesx",
+    projectSlug: "Prescription-Extracter – ML With NLP & Handwriting Recognition System ",
     imageUrl: "/placeholder.jpg",
   },
   {
-    title: "Portfolio Website",
+    title: "EXQUIO",
     description:
-      "A responsive portfolio website showcasing my work and skills, built with modern web technologies and animations.",
-    technologies: ["Next.js", "Styled Components", "Framer Motion", "TypeScript"],
-    githubUrl: "https://github.com/yourusername/portfolio",
-    websiteUrl: "https://your-portfolio.dev",
+      "Doctor Appointment App ",
+    technologies:["React", "Node.js", "MongoDB", "Stripe"],
+    githubUrl: "https://github.com/sayeesx/exquio",
+    websiteUrl: "https://github.com/sayeesx",
     projectSlug: "portfolio-website",
     imageUrl: "/placeholder.jpg",
   },
@@ -561,9 +562,9 @@ export default function Home() {
           <AboutSection>
             <h2>About Me</h2>
             <p>
-              I'm Muhammed Sayees, a Computer Applications student and AI Engineer passionate about machine learning and
-              intelligent systems. Currently interning at Rubixe AI while pursuing my BCA, I'm always eager to learn,
-              create, and push the boundaries of what's possible with AI. Let's build the future together.
+              I&apos;m Muhammed Sayees, a Computer Applications student and AI Engineer passionate about machine learning and
+              intelligent systems. Currently interning at Rubixe AI while pursuing my BCA, I&apos;m always eager to learn,
+              create, and push the boundaries of what&apos;s possible with AI. Let&apos;s build the future together.
             </p>
             <AboutButton />
           </AboutSection>
@@ -582,7 +583,17 @@ export default function Home() {
                   <div className="card-content">
                     <div className="project-image">
                       {project.imageUrl ? (
-                        <img src={project.imageUrl || "/placeholder.jpg"} alt={project.title} />
+                        <Image 
+                          src={project.imageUrl || "/placeholder.jpg"} 
+                          alt={project.title}
+                          width={320}
+                          height={180}
+                          style={{
+                            objectFit: 'cover',
+                            width: '100%',
+                            height: '100%',
+                          }}
+                        />
                       ) : (
                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                           <path d="M20 5H4V19L13.2923 9.70649C13.6828 9.31595 14.3159 9.31591 14.7065 9.70641L20 15.0104V5ZM2 3.9934C2 3.44476 2.45531 3 2.9918 3H21.0082C21.556 3 22 3.44495 22 3.9934V20.0066C22 20.5552 21.5447 21 21.0082 21H2.9918C2.44405 21 2 20.5551 2 20.0066V3.9934ZM8 11C6.89543 11 6 10.1046 6 9C6 7.89543 6.89543 7 8 7C9.10457 7 10 7.89543 10 9C10 10.1046 9.10457 11 8 11Z" />

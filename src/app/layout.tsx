@@ -5,7 +5,7 @@ import { GridPattern } from '@/components/grid-pattern';
 
 export const metadata = {
   title: "Muhammed Sayees",
-  description: "Building cutting-edge AI & software solutions. I design and develop digital experiences that solve complex problems.",
+  description: "Personal portfolio of Muhammed Sayees, showcasing projects and skills in web development and AI.",
   icons: {
     icon: [
       { url: '/favicon.ico', type: 'image/x-icon' },
