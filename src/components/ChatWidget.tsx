@@ -30,6 +30,49 @@ export default function ChatWidget({
     setMounted(true);
   }, []);
 
+  // Prevent background scroll and add blur overlay on mobile when chat is open
+  useEffect(() => {
+    if (!open) {
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
+      const blur = document.getElementById('chat-blur-overlay');
+      if (blur) blur.remove();
+      return;
+    }
+    // Only apply on mobile screens
+    const isMobile = window.innerWidth <= 768;
+    if (open) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.touchAction = 'none';
+      // Add blur overlay
+      if (!document.getElementById('chat-blur-overlay')) {
+        const blurDiv = document.createElement('div');
+        blurDiv.id = 'chat-blur-overlay';
+        blurDiv.style.position = 'fixed';
+        blurDiv.style.top = '0';
+        blurDiv.style.left = '0';
+        blurDiv.style.width = '100vw';
+        blurDiv.style.height = '100vh';
+        blurDiv.style.zIndex = '2147483646';
+        blurDiv.style.backdropFilter = 'blur(8px)';
+        blurDiv.style.background = 'rgba(0,0,0,0.25)';
+        blurDiv.style.transition = 'backdrop-filter 0.2s';
+        document.body.appendChild(blurDiv);
+      }
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
+      const blur = document.getElementById('chat-blur-overlay');
+      if (blur) blur.remove();
+    }
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
+      const blur = document.getElementById('chat-blur-overlay');
+      if (blur) blur.remove();
+    };
+  }, [open]);
+
   useEffect(() => {
     if (open) {
       setTimeout(() => textareaRef.current?.focus(), 80);
@@ -100,6 +143,7 @@ export default function ChatWidget({
 
   if (!mounted) return null;
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
   const portal = (
     <>
       {/* Floating Button */}
@@ -142,18 +186,21 @@ export default function ChatWidget({
         className={`floating-chat-window glass ${open ? "chat-open" : "chat-closed"}`}
         style={{
           position: "fixed",
-          right: 24,
-          bottom: 100,
+          right: isMobile ? 0 : 24,
+          left: isMobile ? 0 : undefined,
+          bottom: isMobile ? 0 : 100,
+          top: isMobile ? undefined : undefined,
           zIndex: 2147483647,
-          width: 360,
-          maxWidth: "calc(100vw - 48px)",
-          height: 520,
+          width: isMobile ? '100vw' : 360,
+          maxWidth: isMobile ? '100vw' : 'calc(100vw - 48px)',
+          height: isMobile ? 520 : 520,
           display: open ? "flex" : "none",
           flexDirection: "column",
-          borderRadius: 14,
+          borderRadius: isMobile ? 0 : 14,
           overflow: "hidden",
           pointerEvents: "auto",
           willChange: "transform, opacity",
+          boxShadow: isMobile ? 'none' : undefined,
         }}
       >
         {/* Chat header (no animation behind) */}

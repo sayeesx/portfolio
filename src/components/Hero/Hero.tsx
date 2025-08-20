@@ -11,7 +11,7 @@ const handleAnimationComplete = () => {
   // You can add any callback logic here if needed
 }
 
-const Hero = () => {
+export const Hero = () => {
   const [mounted, setMounted] = useState(false)
   useEffect(() => {
     setMounted(true)
