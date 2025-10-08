@@ -74,8 +74,7 @@ export default function SupportSection() {
   const [upiAmount, setUpiAmount] = useState<string>("100");
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
-  const createOrder = useAction(api.razorpay.createOrder);
-  const verifyPayment = useAction(api.razorpay.verifyPayment);
+  // Razorpay removed: no server actions required for UPI payment flow
 
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
@@ -83,110 +82,8 @@ export default function SupportSection() {
   };
 
   const handleUpiPayment = async () => {
-    const amount = parseFloat(upiAmount);
-    
-    if (isNaN(amount) || amount <= 0) {
-      toast.error("Please enter a valid amount");
-      return;
-    }
-
-    if (amount < 1) {
-      toast.error("Minimum amount is ₹1");
-      return;
-    }
-
-    setIsProcessingPayment(true);
-
-    try {
-      console.log("Creating Razorpay order for amount:", amount);
-      const order = await createOrder({
-        amount: amount,
-        currency: "INR",
-      });
-      console.log("Order created successfully:", order);
-
-      const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
-        amount: order.amount,
-        currency: order.currency,
-        name: "Muhammed Sayees",
-        description: "Support via UPI",
-        order_id: order.id,
-        method: {
-          upi: true,
-        },
-        config: {
-          display: {
-            blocks: {
-              upi: {
-                name: "Pay using UPI",
-                instruments: [
-                  {
-                    method: "upi",
-                  },
-                ],
-              },
-            },
-            sequence: ["block.upi"],
-            preferences: {
-              show_default_blocks: false,
-            },
-          },
-        },
-        prefill: {
-          name: "",
-          email: "",
-          contact: "",
-        },
-        theme: {
-          color: "#000000",
-        },
-        modal: {
-          ondismiss: () => {
-            setIsProcessingPayment(false);
-            toast.info("Payment cancelled");
-          },
-          escape: false,
-          backdropclose: false,
-          handleback: true,
-          confirm_close: false,
-        },
-        handler: async (response: any) => {
-          try {
-            await verifyPayment({
-              orderId: response.razorpay_order_id,
-              paymentId: response.razorpay_payment_id,
-              signature: response.razorpay_signature,
-            });
-            
-            toast.success("Payment successful! Thank you for your support! 🎉");
-            setUpiModalOpen(false);
-            setUpiAmount("100");
-            setIsProcessingPayment(false);
-          } catch (error) {
-            toast.error("Payment verification failed. Please try again.");
-            console.error("Verification error:", error);
-            setIsProcessingPayment(false);
-          }
-        },
-      };
-
-      const razorpay = new (window as any).Razorpay(options);
-      
-      razorpay.on('payment.failed', function (response: any) {
-        console.error("Payment failed:", response.error);
-        toast.error(`Payment failed: ${response.error.description || 'Please try again'}`);
-        setIsProcessingPayment(false);
-      });
-      
-      razorpay.open();
-    } catch (error) {
-      console.error("Payment error:", error);
-      console.error("Error details:", JSON.stringify(error, null, 2));
-      const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
-      toast.error(`Failed to initiate payment: ${errorMessage}`);
-      setIsProcessingPayment(false);
-    }
+    // UPI payments via Razorpay have been disabled. Inform the user.
+    toast.error("upi payment currently unavailable");
   };
 
   const getCurrentCryptoData = () => {
@@ -298,7 +195,7 @@ export default function SupportSection() {
       <Dialog open={upiModalOpen} onOpenChange={setUpiModalOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>UPI Payment via Razorpay</DialogTitle>
+            <DialogTitle>UPI Payment</DialogTitle>
           </DialogHeader>
           <div className="flex flex-col items-center justify-center p-6 space-y-4">
             <div className="w-full space-y-2">

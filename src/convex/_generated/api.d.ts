@@ -17,7 +17,6 @@ import type * as auth_emailOtp from "../auth/emailOtp.js";
 import type * as auth from "../auth.js";
 import type * as chatbot from "../chatbot.js";
 import type * as http from "../http.js";
-import type * as razorpay from "../razorpay.js";
 import type * as users from "../users.js";
 
 /**
@@ -33,7 +32,7 @@ declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   chatbot: typeof chatbot;
   http: typeof http;
-  razorpay: typeof razorpay;
+  // razorpay removed
   users: typeof users;
 }>;
 export declare const api: FilterApi<
