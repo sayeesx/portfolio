@@ -1,0 +1,4 @@
+const serviceId = 'service_xxxxxxx';
+const templateIdOwner = 'template_xxxxxxx';
+const templateIdUser = 'template_yyyyyyy';
+const publicKey = 'your_public_key_here';
