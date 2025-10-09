@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
 import { useNavigate } from "react-router";
@@ -14,12 +13,7 @@ export default function HeroSection({ onCvModalOpen }: HeroSectionProps) {
   return (
     <section className="flex-1 flex items-center justify-center px-6 pt-20 min-h-screen">
       <div className="max-w-4xl w-full">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="space-y-8"
-        >
+        <div className="space-y-8">
           <div className="space-y-4">
             <div className="w-full">
               <SplitText
@@ -95,7 +89,7 @@ export default function HeroSection({ onCvModalOpen }: HeroSectionProps) {
               <Mail className="h-5 w-5" />
             </button>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

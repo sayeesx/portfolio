@@ -61,7 +61,7 @@ export default function FeaturedProjectsSection() {
         {projects.map((project, idx) => (
           <div 
             key={idx} 
-            className="group relative drop-shadow-xl w-full h-[450px] overflow-visible rounded-xl bg-black border-2 border-transparent transition-colors duration-300"
+            className="group relative drop-shadow-xl w-full h-[450px] overflow-visible rounded-xl bg-black border border-white/20 transition-colors duration-300"
           >
             
             <div className="absolute flex flex-col items-start justify-start text-white z-10 rounded-xl inset-0.5 bg-black/30 backdrop-blur-sm p-6">

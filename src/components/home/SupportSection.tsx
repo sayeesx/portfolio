@@ -5,8 +5,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Copy, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { useAction } from "convex/react";
-import { api } from "@/convex/_generated/api";
 
 type CryptoType = "btc" | "usdt" | "ton" | "sol";
 type BTCNetwork = "segwit" | "legacy" | "bep20";
@@ -160,7 +158,7 @@ export default function SupportSection() {
           }}
         >
           <span className="absolute inset-0 -z-10 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-10 group-hover:animate-[shimmer_2s_ease-in-out_infinite]" style={{ transform: 'translateX(-100%)' }} />
-          <span className="text-xl">₹</span>
+          <span className="text-xl">â‚¹</span>
           <span className="ml-1">Digital e-Rupee</span>
         </button>
       </div>
@@ -199,7 +197,7 @@ export default function SupportSection() {
           </DialogHeader>
           <div className="flex flex-col items-center justify-center p-6 space-y-4">
             <div className="w-full space-y-2">
-              <Label htmlFor="upi-amount">Enter Amount (₹)</Label>
+              <Label htmlFor="upi-amount">Enter Amount (â‚¹)</Label>
               <Input
                 id="upi-amount"
                 type="number"
@@ -211,7 +209,7 @@ export default function SupportSection() {
                 className="text-lg"
                 disabled={isProcessingPayment}
               />
-              <p className="text-xs text-muted-foreground">Minimum amount: ₹1</p>
+              <p className="text-xs text-muted-foreground">Minimum amount: â‚¹1</p>
             </div>
             <Button
               onClick={handleUpiPayment}
@@ -224,7 +222,7 @@ export default function SupportSection() {
                   Processing...
                 </>
               ) : (
-                <>Pay ₹{upiAmount || "0"} via UPI</>
+                <>Pay â‚¹{upiAmount || "0"} via UPI</>
               )}
             </Button>
           </div>

@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { useNavigate } from "react-router";
 import Navbar from "@/components/Navbar";
 import Squares from "@/components/Squares";
@@ -57,21 +56,11 @@ export default function Home() {
         <HeroSection onCvModalOpen={() => setCvModalOpen(true)} />
 
         {/* Sections as Horizontal Cards */}
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-          className="px-6 py-20"
-        >
+        <section className="px-6 py-20">
           <div className="max-w-6xl mx-auto space-y-8">
             {sectionItems.map((item, index) => (
-              <motion.div
+              <div
                 key={item.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="group backdrop-blur-md bg-black/30 border border-white/10 rounded-2xl p-6 md:p-8 hover:border-white/20 transition-all relative overflow-hidden"
                 style={{
                   '--spotlight-color': 'rgba(255,255,255,0.3)'
@@ -86,19 +75,13 @@ export default function Home() {
                 <div className="relative z-10">
                   {item.content}
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.section>
+        </section>
 
         {/* Contact Form Section */}
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="px-6 py-20"
-        >
+        <section className="px-6 py-20">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-white mb-4">
@@ -110,20 +93,14 @@ export default function Home() {
             </div>
             <ContactFormStepper />
           </div>
-        </motion.section>
+        </section>
 
         {/* Footer */}
-        <motion.footer
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="border-t border-gray-800 py-8 backdrop-blur-md bg-black/30"
-        >
+        <footer className="border-t border-gray-800 py-8 backdrop-blur-md bg-black/30">
           <div className="max-w-6xl mx-auto px-6 text-center text-sm text-gray-400">
             © 2025 Muhammed Sayees. All rights reserved.
           </div>
-        </motion.footer>
+        </footer>
       </div>
 
       {/* Chat Widget */}
