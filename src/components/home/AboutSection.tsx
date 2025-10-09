@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Code2 } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router";
 
 export default function AboutSection() {
@@ -8,7 +8,6 @@ export default function AboutSection() {
   return (
     <>
       <div className="flex items-center gap-3 mb-6">
-        <Code2 className="h-6 w-6 text-white" />
         <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-white">About Me</h2>
       </div>
       <p className="text-sm md:text-lg text-gray-300 leading-relaxed mb-6">

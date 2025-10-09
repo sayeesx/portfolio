@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Copy, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import DonationModal from "@/components/DonationModal";
 
 type CryptoType = "btc" | "usdt" | "ton" | "sol";
 type BTCNetwork = "segwit" | "legacy" | "bep20";
@@ -69,8 +68,7 @@ export default function SupportSection() {
   const [selectedUSDTNetwork, setSelectedUSDTNetwork] = useState<USDTNetwork>("bep20");
   const [imageLoading, setImageLoading] = useState(true);
   const [qrImageLoading, setQrImageLoading] = useState<Record<string, boolean>>({});
-  const [upiAmount, setUpiAmount] = useState<string>("100");
-  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+  
 
   // Razorpay removed: no server actions required for UPI payment flow
 
@@ -79,10 +77,7 @@ export default function SupportSection() {
     toast.success(`${label} copied to clipboard!`);
   };
 
-  const handleUpiPayment = async () => {
-    // UPI payments via Razorpay have been disabled. Inform the user.
-    toast.error("upi payment currently unavailable");
-  };
+  
 
   const getCurrentCryptoData = () => {
     if (selectedCrypto === "btc") {
@@ -158,8 +153,10 @@ export default function SupportSection() {
           }}
         >
           <span className="absolute inset-0 -z-10 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-10 group-hover:animate-[shimmer_2s_ease-in-out_infinite]" style={{ transform: 'translateX(-100%)' }} />
-          <span className="text-xl">â‚¹</span>
-          <span className="ml-1">Digital e-Rupee</span>
+            <span className="text-xl" aria-hidden>
+              ₹
+            </span>
+            <span className="ml-1">Digital e-Rupee</span>
         </button>
       </div>
 
@@ -180,54 +177,18 @@ export default function SupportSection() {
             >
               Send via PayPal
             </Button>
-            <iframe 
-              src="https://paypal.me/msayees" 
-              className="w-full h-[400px] border-0 rounded-lg"
-              title="PayPal Payment"
-            />
           </div>
         </DialogContent>
       </Dialog>
 
       {/* UPI Modal */}
-      <Dialog open={upiModalOpen} onOpenChange={setUpiModalOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>UPI Payment</DialogTitle>
-          </DialogHeader>
-          <div className="flex flex-col items-center justify-center p-6 space-y-4">
-            <div className="w-full space-y-2">
-              <Label htmlFor="upi-amount">Enter Amount (â‚¹)</Label>
-              <Input
-                id="upi-amount"
-                type="number"
-                min="1"
-                step="1"
-                value={upiAmount}
-                onChange={(e) => setUpiAmount(e.target.value)}
-                placeholder="100"
-                className="text-lg"
-                disabled={isProcessingPayment}
-              />
-              <p className="text-xs text-muted-foreground">Minimum amount: â‚¹1</p>
-            </div>
-            <Button
-              onClick={handleUpiPayment}
-              disabled={isProcessingPayment}
-              className="w-full bg-black hover:bg-black/90 text-white border-2 border-white shadow-lg transition-all font-semibold"
-            >
-              {isProcessingPayment ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Processing...
-                </>
-              ) : (
-                <>Pay â‚¹{upiAmount || "0"} via UPI</>
-              )}
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <DonationModal
+        open={upiModalOpen}
+        onOpenChange={setUpiModalOpen}
+        upiId="sayees@upi"
+        payeeName="Sayees CK"
+        transactionNote="Donation"
+      />
 
       {/* e-Rupee Modal */}
       <Dialog open={eRupeeModalOpen} onOpenChange={setERupeeModalOpen}>

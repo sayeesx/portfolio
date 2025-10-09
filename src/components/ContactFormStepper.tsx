@@ -72,7 +72,40 @@ export default function ContactFormStepper() {
     return Object.keys(newErrors).length === 0;
   };
 
+  const validateAllFields = (): boolean => {
+    const newErrors: ValidationErrors = {};
+
+    if (!validateName(formData.name)) {
+      newErrors.name = 'Name must be at least 2 characters long';
+    }
+
+    if (!formData.email) {
+      newErrors.email = 'Email is required';
+    } else if (!validateEmail(formData.email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+
+    if (!validateMessage(formData.message)) {
+      newErrors.message = 'Message must be at least 10 characters long';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleFinalStepCompleted = async () => {
+    // Before sending, ensure all required fields are valid
+    const ok = validateAllFields();
+    if (!ok) {
+      toast.warning('Please fill all required fields correctly before sending');
+      // Jump to the first invalid step
+      if (errors.name) setCurrentStep(1);
+      else if (errors.email) setCurrentStep(2);
+      else if (errors.message) setCurrentStep(4);
+      return;
+    }
+
+    // proceed with sending
     setIsFormLocked(true);
     setSubmissionState('sending');
     
@@ -212,6 +245,7 @@ export default function ContactFormStepper() {
       key={`${currentStep}-${isFormLocked}`}
       initialStep={currentStep}
       onStepChange={setCurrentStep}
+      disableStepIndicators
       onFinalStepCompleted={handleFinalStepCompleted}
       onValidateStep={validateCurrentStep}
       stepCircleContainerClassName="backdrop-blur-md bg-black/30"

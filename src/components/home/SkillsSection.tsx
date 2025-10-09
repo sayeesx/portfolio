@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Briefcase } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router";
 import { motion } from "framer-motion";
 
@@ -28,7 +28,6 @@ export default function SkillsSection() {
   return (
     <>
       <div className="flex items-center gap-3 mb-6">
-        <Briefcase className="h-6 w-6 text-white" />
         <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-white">Skills & Expertise</h2>
       </div>
       <div className="relative -mx-6 md:-mx-8 overflow-hidden mb-6 my-8" style={{ height: '80px' }}>
