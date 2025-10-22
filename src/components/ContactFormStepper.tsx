@@ -260,19 +260,31 @@ export default function ContactFormStepper() {
       }}
     >
       <Step>
-        <div className="space-y-4">
+        <motion.div 
+          className="space-y-6 px-8 py-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+        >
           <h3 className="text-xl font-bold text-white">What's your name?</h3>
           <div className="space-y-2">
-            <Input
-              type="text"
-              placeholder="Your name"
-              value={formData.name}
-              onChange={(e) => handleInputChange('name', e.target.value)}
-              className={`bg-black border-gray-700 text-white placeholder:text-gray-500 ${
-                errors.name ? 'border-red-500' : ''
-              }`}
-              required
-            />
+            <motion.div
+              initial={{ scale: 0.95 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+            >
+              <Input
+                type="text"
+                placeholder="Your name"
+                value={formData.name}
+                onChange={(e) => handleInputChange('name', e.target.value)}
+                className={`bg-black/50 border-gray-700 text-white placeholder:text-gray-500 ${
+                  errors.name ? 'border-red-500' : ''
+                }`}
+                required
+              />
+            </motion.div>
             {errors.name && (
               <motion.p
                 initial={{ opacity: 0, y: -10 }}
@@ -283,23 +295,35 @@ export default function ContactFormStepper() {
               </motion.p>
             )}
           </div>
-        </div>
+        </motion.div>
       </Step>
 
       <Step>
-        <div className="space-y-4">
+        <motion.div 
+          className="space-y-6 px-8 py-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+        >
           <h3 className="text-xl font-bold text-white">What's your email?</h3>
           <div className="space-y-2">
-            <Input
-              type="email"
-              placeholder="your.email@example.com"
-              value={formData.email}
-              onChange={(e) => handleInputChange('email', e.target.value)}
-              className={`bg-black border-gray-700 text-white placeholder:text-gray-500 ${
-                errors.email ? 'border-red-500' : ''
-              }`}
-              required
-            />
+            <motion.div
+              initial={{ scale: 0.95 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+            >
+              <Input
+                type="email"
+                placeholder="your.email@example.com"
+                value={formData.email}
+                onChange={(e) => handleInputChange('email', e.target.value)}
+                className={`bg-black/50 border-gray-700 text-white placeholder:text-gray-500 ${
+                  errors.email ? 'border-red-500' : ''
+                }`}
+                required
+              />
+            </motion.div>
             {errors.email && (
               <motion.p
                 initial={{ opacity: 0, y: -10 }}
@@ -310,36 +334,60 @@ export default function ContactFormStepper() {
               </motion.p>
             )}
           </div>
-        </div>
+        </motion.div>
       </Step>
 
       <Step>
-        <div className="space-y-4">
+        <motion.div 
+          className="space-y-6 px-8 py-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+        >
           <h3 className="text-xl font-bold text-white">Subject (Optional)</h3>
-          <Input
-            type="text"
-            placeholder="What's this about?"
-            value={formData.subject}
-            onChange={(e) => handleInputChange('subject', e.target.value)}
-            className="bg-black border-gray-700 text-white placeholder:text-gray-500"
-          />
-        </div>
+          <motion.div
+            initial={{ scale: 0.95 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+          >
+            <Input
+              type="text"
+              placeholder="What's this about?"
+              value={formData.subject}
+              onChange={(e) => handleInputChange('subject', e.target.value)}
+              className="bg-black/50 border-gray-700 text-white placeholder:text-gray-500"
+            />
+          </motion.div>
+        </motion.div>
       </Step>
 
       <Step>
-        <div className="space-y-4">
+        <motion.div 
+          className="space-y-6 px-8 py-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+        >
           <h3 className="text-xl font-bold text-white">Your message</h3>
           <div className="space-y-2">
-            <Textarea
-              placeholder="Tell me about your project..."
-              rows={6}
-              value={formData.message}
-              onChange={(e) => handleInputChange('message', e.target.value)}
-              className={`bg-black border-gray-700 text-white placeholder:text-gray-500 ${
-                errors.message ? 'border-red-500' : ''
-              }`}
-              required
-            />
+            <motion.div
+              initial={{ scale: 0.95 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+            >
+              <Textarea
+                placeholder="Tell me about your project..."
+                rows={6}
+                value={formData.message}
+                onChange={(e) => handleInputChange('message', e.target.value)}
+                className={`bg-black/50 border-gray-700 text-white placeholder:text-gray-500 ${
+                  errors.message ? 'border-red-500' : ''
+                }`}
+                required
+              />
+            </motion.div>
             {errors.message && (
               <motion.p
                 initial={{ opacity: 0, y: -10 }}
@@ -350,7 +398,7 @@ export default function ContactFormStepper() {
               </motion.p>
             )}
           </div>
-        </div>
+        </motion.div>
       </Step>
     </Stepper>
   );

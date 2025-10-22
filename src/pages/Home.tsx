@@ -82,7 +82,7 @@ export default function Home() {
 
         {/* Contact Form Section */}
         <section className="px-6 py-20">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-2xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-white mb-4">
                 Get In Touch
